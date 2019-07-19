@@ -8,7 +8,12 @@ import {
     Image,
     Text,
     StatusBar,
+    Dimensions
 } from 'react-native';
+
+const { width, height } = Dimensions.get('window')
+
+console.log(width, height) // 1366 and 1024
 
 const styles = StyleSheet.create({
 
@@ -17,33 +22,43 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     headerImage: {
-        height: 231,
-        width: 1112
+        height: height * .2,  // 231,
+        width: width // 1112
     },
     studentImage: {
-        height: 122,
-        width: 122
+        height: height * .16 , // 122
+        width: height * .16 // 122
     },
     footer: {
+        // flex: 1,
+        position: "relative",
         height: 99,
-        width: 1112
+        width: 1112,
+        bottom: 0
     },
     Date: {
         alignSelf: "center",
         fontSize: 22,
-        // margin: 10,
         fontFamily: "Avenir-Medium"
     },
     Title: {
         alignSelf: "center",
         fontSize: 80,
-        // margin: 10,
         fontFamily: "Avenir-Black"
     },
     Feelings: {
         alignSelf: "center",
         fontSize: 36,
-        fontFamily: "Avenir-Medium"
+        fontFamily: "Avenir-Medium",
+        marginBottom: 5
+    },
+    PictureRow: {
+        flexDirection: 'row',
+        alignSelf: "stretch",
+        justifyContent: 'space-evenly',
+        position: "relative",
+        height: height * .2,
+        marginBottom: 2
     }
 })
 
@@ -60,58 +75,45 @@ export const Converted = () => {
             <Text style={styles.Title}>Welcome Class!</Text>
             <Text style={styles.Feelings}>How are you feeling today?</Text>
 
-            <View>
-                <View style={{ 
-                    flex: 1, 
-                    flexDirection: 'row', 
-                    // justifyContent: 'space-between',
-                    flexWrap: 'wrap'
-                    }}>
-                    <Image source={require("./girl.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./girl.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./girl.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./girl.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./girl.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./boy.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./boy.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./boy.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./boy.png")}
-                        style={styles.studentImage}
-                    />
-                    <Image source={require("./boy.png")}
-                        style={styles.studentImage}
-                    />
-                </View>
-                <View style={{ 
-                    flex: 1, 
-                    flexDirection: 'row', 
-                    justifyContent: 'space-between' 
-                    }}>
-                    
-                </View>
-            </View>
+            <View style={{flex: 1, flexDirection: 'column', alignItems: "stretch"}}>
 
-            {/* <View>
-                <Image source={require("./footer.png")}
-                    style={styles.footer}
-                />
-            </View> */}
+                <View style={styles.PictureRow}>
+                    <Image source={require("./girl.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./girl.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./girl.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./girl.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./girl.png")}
+                        style={styles.studentImage}
+                    />
+                </View>
+
+                <View style={styles.PictureRow}>
+                    <Image source={require("./boy.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./boy.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./boy.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./boy.png")}
+                        style={styles.studentImage}
+                    />
+                    <Image source={require("./boy.png")}
+                        style={styles.studentImage}
+                    />
+                </View>
+
+            </View>
             { /*
 
             
@@ -130,6 +132,11 @@ export const Converted = () => {
             <View style="width: 100%; height: 9.66797%; left: 0%; top: 90.332%; border: 1px solid green;"></View>
             */}
 
+            {/* <View>
+                <Image source={require("./footer.png")}
+                    style={styles.footer}
+                />
+            </View> */}
         </View>
     )
 }

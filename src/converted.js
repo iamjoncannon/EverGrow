@@ -9,7 +9,8 @@ import {
     Text,
     StatusBar,
     Dimensions,
-    FlatList
+    FlatList,
+    Modal
 } from 'react-native';
 import { throwStatement } from '@babel/types';
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flex: 1, 
         flexDirection: "column",
-        justifyContent: "center"
+        justifyContent: "center",
     },
 
         Date: {
@@ -105,6 +106,34 @@ export default class Converted extends React.Component {
 
         return (
             <View style={styles.viewPortContainer}>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={true}
+                style={{ opacity: 10}}
+            >
+                {/* container for modal box */}
+                <View 
+                    style={{ 
+                            flex: 1, 
+                            width: this.state.ViewportWidth,
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    
+                     }}
+        >
+                    <View 
+                            style={{
+                                height: this.state.ViewportHeight * .6,
+                                width: this.state.ViewportWidth * .5,
+                                backgroundColor: 'white',}}>
+                    </View>
+                </View> 
+            </Modal>
+
             <ScrollView>
                
                 <Image source={require("./sun.png")} 
@@ -186,7 +215,9 @@ export default class Converted extends React.Component {
                         resize="contain"
                 />
             </View>
+
         </View>
+
         )
     }
 }

@@ -10,20 +10,22 @@ import {
     StatusBar,
     Dimensions,
     FlatList,
-    Modal
+    Modal,
+    TouchableOpacity
 } from 'react-native';
-import { throwStatement } from '@babel/types';
 
 const styles = StyleSheet.create({
 
-    /* main items */
-
-    // total container
     viewPortContainer: {
         display: "flex",
         flex: 1, 
         flexDirection: "column",
         justifyContent: "center",
+    },
+
+    FooterImage: {
+        margin: 1,
+        alignSelf: "center"
     },
 
         Date: {
@@ -52,20 +54,15 @@ const styles = StyleSheet.create({
             alignSelf: "stretch",
             justifyContent: 'space-evenly',
             position: "relative",
-            // height: props.height * .2,
             marginBottom: 2
         },     
-    FooterImage: {
-        margin: 1,
-        alignSelf: "center"
-    },
-
-    // specific elements:
 })
 
 const StudentImage = (props) =>{
 
+    
     const {imageSource, dims } = props
+    console.log()
 
     return (
 
@@ -75,18 +72,30 @@ const StudentImage = (props) =>{
     )
 }
 
+
+let kidsArray = []
+
+for(let i = 0; i < 10; i++){
+    kidsArray.push({
+        key: i,
+        pic: i % 2 === 0 ? require("./girl.png") : require("./boy.png")
+    })
+}
+
 export default class Converted extends React.Component {
 
     constructor(props){
         super(props)
         this.state = {
+            locked: false, // true/false,  locks screens
+            modal: "password", // "password", "kid checkin"
+            areKidsCheckedin: false,
             ViewportWidth: Dimensions.get("window").width,
             ViewportHeight: Dimensions.get("window").height
         }
     }
 
     componentDidMount(){
-        
         Dimensions.addEventListener("change", (change) => this.resizeLayout(change))
     }
 
@@ -102,6 +111,13 @@ export default class Converted extends React.Component {
         })
     }
 
+    toggleLock = () => {
+
+        this.setState({
+            locked: !this.state.locked
+        })
+    }
+
     render(){
 
         return (
@@ -110,10 +126,9 @@ export default class Converted extends React.Component {
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={true}
+                visible={false}
                 style={{ opacity: 10}}
             >
-                {/* container for modal box */}
                 <View 
                     style={{ 
                             flex: 1, 
@@ -122,25 +137,28 @@ export default class Converted extends React.Component {
                             justifyContent: 'center',
                             alignSelf: 'center',
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    
                      }}
-        >
+                >
                     <View 
-                            style={{
-                                height: this.state.ViewportHeight * .6,
-                                width: this.state.ViewportWidth * .5,
-                                backgroundColor: 'white',}}>
+                        style={{
+                            height: this.state.ViewportHeight * .6,
+                            width: this.state.ViewportWidth * .5,
+                            backgroundColor: 'white',}}
+                    >
                     </View>
                 </View> 
             </Modal>
 
             <ScrollView>
-               
-                <Image source={require("./sun.png")} 
-                       resize="cover" 
-                       style={{ height: this.state.ViewportHeight * .2, 
-                                width: this.state.ViewportWidth} } 
-                />
+                <TouchableOpacity onPress={this.toggleLock}> 
+                    <Image source={ this.state.locked ? require("./lockedheader.png") : require("./sun.png")} 
+                        resize="cover" 
+                        style={{ height: this.state.ViewportHeight * .2, 
+                                    width: this.state.ViewportWidth} }
+                        
+                            
+                    />
+                </TouchableOpacity>
                
                 <Text style={styles.Date}>Wednesday, July 31, 2019</Text>
                 <Text style={styles.Title}>Welcome Class!</Text>
@@ -149,64 +167,29 @@ export default class Converted extends React.Component {
 
                     <View style={styles.PictureRow}>
 
-
-                        <StudentImage imageSource={require("./girl.png")}
-                            dims={this.state.ViewportWidth * .16}
+                        <FlatList
+                            numColumns={5}
+                            contentContainerStyle={{
+                                    alignSelf: 'center'
+                                }}
+                            data={kidsArray}
+                            renderItem={({item})=>(
+                                <StudentImage 
+                                    imageSource={item.pic}
+                                    dims={this.state.ViewportWidth * .16}
+                                />
+                            )}
                         />
-                        <StudentImage imageSource={require("./girl.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./girl.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./girl.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./girl.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                    
-                    </View>
-
-                    <View style={styles.PictureRow}>
-
-                        <StudentImage imageSource={require("./boy.png")}
-                                      dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./boy.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./boy.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./boy.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-                        <StudentImage imageSource={require("./boy.png")}
-                            dims={this.state.ViewportWidth * .16}
-                        />
-
-                    </View>
-                        <View style={styles.PictureRow}>
-
-                            <StudentImage imageSource={require("./boy.png")}
-                                dims={this.state.ViewportWidth * .16}
-                            />
-                            <StudentImage imageSource={require("./boy.png")}
-                                dims={this.state.ViewportWidth * .16}
-                            />
-                            <StudentImage imageSource={require("./boy.png")}
-                                dims={this.state.ViewportWidth * .16}
-                            />
-                            <StudentImage imageSource={require("./boy.png")}
-                                dims={this.state.ViewportWidth * .16}
-                            />
-                            <StudentImage imageSource={require("./boy.png")}
-                                dims={this.state.ViewportWidth * .16}
-                            />
                     </View>
                 </View>
+
+                    {this.state.areKidsCheckedin ? 
+                        <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', justifyContent: 'center', height: this.state.ViewportHeight * .1, width: this.state.ViewportWidth * .95, alignItems: 'center', alignSelf: 'center', flex: 1, margin: 50, flexDirection: 'column' }}><Text style={{ fontSize: 50, top: this.state.ViewportHeight * .02, textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', flex: 1}}>Done!</Text></View>
+                    : <View></View>}
+            
             </ScrollView>
+            {!this.state.locked ? 
+            
             <View >
                 <Image source={require("./footer.png")} 
                        style={{ ...styles.FooterImage, 
@@ -214,17 +197,8 @@ export default class Converted extends React.Component {
                                 width: this.state.ViewportWidth }}
                         resize="contain"
                 />
-            </View>
-
+            </View>: <View></View>}
         </View>
-
         )
     }
 }
-
-/*
-
-Reference:
-https://stackoverflow.com/questions/29447715/react-native-fixed-footer
-
-*/

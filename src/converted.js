@@ -3,19 +3,17 @@ import KidCheckIn from './KidCheckIn'
 import styles from './styles'
 
 import {
-    SafeAreaView,
-    StyleSheet,
     ScrollView,
     View,
     Image,
     Text,
-    StatusBar,
     Dimensions,
     FlatList,
     Modal,
     TouchableOpacity, 
     TextInput,
-    Keyboard
+    Keyboard,
+    PixelRatio
 } from 'react-native';
 
 console.log('stuf')
@@ -25,14 +23,15 @@ const StudentImage = (props) =>{
     const { id, imageSource, dims, handleModalInit, name, checkedIn  } = props
 
     const opacity = checkedIn ? 0.2 : 1;
+
     return (
 
         <TouchableOpacity onPress={()=> ! checkedIn ? handleModalInit(id) : " "} > 
 
-            <View style={{flex: 1, margin: 20}}>
+            <View style={{ flex: 1, margin: 20}}>
                 <Image 
                     source={imageSource}
-                    style={{height: dims, width: dims, margin: 20, opacity: opacity}} 
+                    style={{ height: dims, width: dims, opacity: opacity}} 
                 />
                 <Text style={{fontSize: 45, alignSelf: 'center'}}>{name}</Text>
             </View>
@@ -40,7 +39,6 @@ const StudentImage = (props) =>{
         </TouchableOpacity>
     )
 }
-
 
 const GreenButton = (props) => {
 
@@ -61,7 +59,7 @@ const GreenButton = (props) => {
 
 let kidsArray = []
 
-for(let i = 0; i < 1; i++){
+for(let i = 0; i < 10; i++){
     kidsArray.push({
         name: "Kiddo " + i, 
         key: i,
@@ -126,14 +124,6 @@ export default class Converted extends React.Component {
 
         Dimensions.removeEventListener("change")
     }
-
-    _keyboardDidShow() {
-
-    }
-
-    _keyboardDidHide() {
-
-    }
     
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
@@ -197,7 +187,6 @@ export default class Converted extends React.Component {
 
     handlecheckInDone = () => {
 
-        console.log('hitting handlecheckindone')
         this.setState({
             modalState : { ...this.state.modalState, type: 'password', visible: true}
         })
@@ -240,6 +229,7 @@ export default class Converted extends React.Component {
                                                                         ViewportWidth={this.state.ViewportWidth}
                                                                   /> : 
                         this.state.modalState.type === "password" ? 
+
                         <View>
                             <TextInput
                                 onSubmitEditing={Keyboard.dismiss}
@@ -258,14 +248,14 @@ export default class Converted extends React.Component {
             </Modal>
 
             <ScrollView>
+
                 {/* header */}
                 <TouchableOpacity onPress={this.toggleLock}> 
+
                     <Image source={ this.state.locked ? require("./lockedheader.png") : require("./sun.png")} 
                         resize="cover" 
                         style={{ height: this.state.ViewportHeight * .2, 
-                                    width: this.state.ViewportWidth} }
-                        
-                            
+                                    width: this.state.ViewportWidth} }     
                     />
                 </TouchableOpacity>
                
@@ -321,8 +311,6 @@ export default class Converted extends React.Component {
                         
                 />
             </View>: <View></View>}
-
-        
         </View>
         )
     }

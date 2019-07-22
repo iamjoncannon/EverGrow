@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import styles from './styles'
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
     View,
     Image,
     Text,
-    StatusBar,
-    Dimensions,
     FlatList,
-    Modal,
     TouchableOpacity
 } from 'react-native';
 
@@ -34,7 +28,7 @@ export default class KidCheckIn extends React.Component {
     render() {
 
         let { dims, handleCheckInSubmit } = this.props
-        let { pic } = this.props.data
+        let { pic, name } = this.props.data
         let kidKey = this.props.data.key
 
         return (
@@ -43,8 +37,8 @@ export default class KidCheckIn extends React.Component {
                     source={pic}
                     style={{ height: dims, width: dims }}
                 />
-                <Text style={styles.Feelings}>How are you feeling today?</Text>
-                <Text style={styles.Feelings}>Select the emoji that best express your mood.</Text>
+                <Text style={styles.Feelings}> Hi {name}! How do you feel today?</Text>
+                <Text style={styles.Feelings}>Select the emoji that best expresses your mood.</Text>
                 <FlatList
                     numColumns={4}
                     contentContainerStyle={{
@@ -66,7 +60,6 @@ export default class KidCheckIn extends React.Component {
                         </View>
                     )}
                 />
-
                 {
                     this.state.selected !== null ?
 

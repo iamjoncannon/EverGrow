@@ -8,7 +8,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import {feelingsArray} from './converted'
+import {feelingsArray} from './data'
 
 export default class KidCheckIn extends React.Component {
 
@@ -32,13 +32,21 @@ export default class KidCheckIn extends React.Component {
         let kidKey = this.props.data.key
 
         return (
-            <View style={{ flex: 1, alignItems: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', width: 620, height: 524}}>
                 <Image
                     source={pic}
-                    style={{ height: dims, width: dims }}
+                    style={{ height: 108, width: 108, marginTop: 20}}
                 />
-                <Text style={styles.Feelings}> Hi {name}! How do you feel today?</Text>
-                <Text style={styles.Feelings}>Select the emoji that best expresses your mood.</Text>
+                <Text style={{
+                    fontSize: 22,
+                    fontFamily: "Avenir-Heavy",
+                    color: 'rgb(1, 0, 115)'
+                    }}>{"\n"}Hi {name}! How are you feeling today?</Text>
+                <Text style={{
+                    fontSize: 22,
+                    fontFamily: "Avenir-Medium",
+                    color: 'rgb(15, 15, 133)'
+                    }}>Select the emoji that best expresses your mood.</Text>
                 <FlatList
                     numColumns={4}
                     contentContainerStyle={{
@@ -52,7 +60,7 @@ export default class KidCheckIn extends React.Component {
 
                                 <Image
                                     source={item.pic}
-                                    style={{ margin: 20, opacity: this.state.selected !== null & item.key !== this.state.selected ? .2 : 1 }}
+                                    style={{ height: 80, width: 80, margin: 20, opacity: this.state.selected !== null & item.key !== this.state.selected ? .2 : 1 }}
                                 />
                                 <Text style={{ alignSelf: 'center', fontSize: 20 }}>{item.feeling}</Text>
 
@@ -65,8 +73,14 @@ export default class KidCheckIn extends React.Component {
 
                         <TouchableOpacity onPress={() => handleCheckInSubmit(kidKey, this.state.selected)}>
 
-                            <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', zIndex: 2, width: this.props.ViewportWidth * .6, height: 80 }}>
-                                <Text style={{ ...styles.Feelings, marginTop: 15 }}>Done</Text>
+                            <View style={{ backgroundColor: 'rgb(131,242,196)', zIndex: 2, width: this.props.ViewportWidth * .6, height: 68 }}>
+                                <Text style={{
+                                    fontSize: 22,
+                                    fontFamily: "Avenir-Heavy",
+                                    color: 'rgb(1, 0, 115)',
+                                    marginTop: 19,
+                                    textAlign: "center"
+                                }}>DONE!</Text>
                             </View>
                         </TouchableOpacity>
 

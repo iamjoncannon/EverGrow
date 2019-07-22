@@ -19,18 +19,21 @@ const styles = StyleSheet.create({
     Date: {
         alignSelf: "center",
         fontSize: 22,
-        fontFamily: "Avenir-Medium"
+        fontFamily: "Avenir-Medium",
+        color: 'rgb(1, 0, 115)'
     },
     Title: {
         alignSelf: "center",
         fontSize: 80,
-        fontFamily: "Avenir-Black"
+        fontFamily: "Avenir-Black",
+        color: 'rgb(1, 0, 115)'
     },
     Feelings: {
         alignSelf: "center",
         fontSize: 36,
         fontFamily: "Avenir-Medium",
-        marginBottom: 5
+        marginBottom: 5,
+        color: 'rgb(15, 15, 133)'
     },
     pictureRowContainer: {
         flex: 1,
@@ -42,7 +45,8 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
         justifyContent: 'space-evenly',
         position: "relative",
-        margin: 2
+        marginLeft: 140,
+        marginRight: 140
     },
     greenButton: {
         backgroundColor: 'rgba(131,242,196, 1.0)',

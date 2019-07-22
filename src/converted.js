@@ -57,7 +57,16 @@ const styles = StyleSheet.create({
             justifyContent: 'space-evenly',
             position: "relative",
             margin: 2
-        },     
+        },  
+        greenButton : { 
+            backgroundColor: 'rgba(131,242,196, 1.0)', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            alignSelf: 'center', 
+            flex: 1, 
+            margin: 50, 
+            flexDirection: 'column'
+        }
 })
 
 const StudentImage = (props) =>{
@@ -80,47 +89,94 @@ const StudentImage = (props) =>{
         </TouchableOpacity>
     )
 }
+class KidCheckIn extends React.Component {
 
-const KidCheckIn = (props) => {
+    constructor(props) {
+        super(props)
+        this.state = {
+            selected: null
+        }
+    }
 
-    let { dims, handleCheckInSubmit} = props 
-    let { pic } = props.data
-    let kidKey = props.data.key
+    handleSelectFeeling = (id) => {
+        this.setState({
+            selected: id
+        })
+    }
+
+    render(){
+
+        let { dims, handleCheckInSubmit} = this.props 
+        let { pic } = this.props.data
+        let kidKey = this.props.data.key
+
+        return (
+            <View style={{flex: 1, alignItems: 'center'}}>
+                <Image
+                    source={pic}
+                    style={{ height: dims, width: dims }}
+                />
+                <Text style={styles.Feelings}>How are you feeling today?</Text>
+                <Text style={styles.Feelings}>Select the emoji that best express your mood.</Text>
+                <FlatList
+                    numColumns={4}
+                    contentContainerStyle={{
+                        alignSelf: 'center',
+                        flex: 1
+                    }}
+                    data={feelingsArray}
+                    renderItem={({ item }) => (
+                        <View>
+                            <TouchableOpacity onPress={()=>{this.setState({selected: item.key})}}> 
+
+                                <Image 
+                                    source={item.pic}
+                                    style={{margin: 20, opacity : this.state.selected !== null & item.key !== this.state.selected ? .2 : 1 }}
+                                />
+                                <Text style={{alignSelf: 'center', fontSize: 20 }}>{item.feeling}</Text>
+                            
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
+
+                {
+                    this.state.selected !== null ? 
+
+                        <TouchableOpacity onPress={() => handleCheckInSubmit(kidKey, this.state.selected)}>
+
+                            <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', zIndex: 2, width: this.props.ViewportWidth * .6, height: 80 }}>
+                                <Text style={{...styles.Feelings, marginTop: 15}}>Done</Text>           
+                            </View>
+                        </TouchableOpacity>
+
+                    :<View></View>
+                }
+            </View>
+        )
+    }
+}
+
+const GreenButton = (props) => {
+
+    let { height, width } = props.globalDims
+    let { heightFactor, widthFactor } = props
 
     return (
-        <View style={{flex: 1, alignItems: 'center'}}>
-            <Image
-                source={pic}
-                style={{ height: dims, width: dims, margin: 20 }}
-            />
-            <Text style={styles.Feelings}>How are you feeling today?</Text>
-            <Text style={styles.Feelings}>Select the emoji that best express your mood.</Text>
-            <FlatList
-                numColumns={4}
-                contentContainerStyle={{
-                    alignSelf: 'center'
-                }}
-                data={feelingsArray}
-                renderItem={({ item }) => (
-                    <View>
-                        <TouchableOpacity onPress={()=> handleCheckInSubmit(kidKey, item.key)}> 
 
-                            <Image 
-                                source={item.pic}
-                            />
-                            <Text>{item.feeling}</Text>
-                        
-                        </TouchableOpacity>
-                    </View>
-                )}
-            />
-        </View>
+        <TouchableOpacity onPress={this.callback}>
+            <View 
+                style={{ ...styles.greenButton, height: height * heightFactor, width: width * widthFactor}}
+            >
+                <Text style={{ fontSize: 50, top: props.globalDims.height * .02, textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', flex: 1 }}>Done!</Text>
+            </View>
+        </TouchableOpacity>
     )
 }
 
 let kidsArray = []
 
-for(let i = 0; i < 5; i++){
+for(let i = 0; i < 15; i++){
     kidsArray.push({
         name: "Kiddo " + i, 
         key: i,
@@ -270,6 +326,8 @@ export default class Converted extends React.Component {
                                                                         data={this.state.kidData[this.state.selectedKid]}
                                                                         dims={this.state.ViewportWidth * .1}
                                                                         handleCheckInSubmit={this.handleCheckInSubmit}
+                                                                        ViewportHeight={this.state.ViewportHeight}
+                                                                        ViewportWidth={this.state.ViewportWidth}
                                                                   /> : <View></View>}
                     </View>
                 </View> 
@@ -314,13 +372,15 @@ export default class Converted extends React.Component {
                 </View>
 
                     {this.state.areKidsCheckedin ? 
-                        <TouchableOpacity onPress={this.handleCheckInDone}>
-                            <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', justifyContent: 'center', height: this.state.ViewportHeight * .1, width: this.state.ViewportWidth * .95, alignItems: 'center', alignSelf: 'center', flex: 1, margin: 50, flexDirection: 'column' }}><Text style={{ fontSize: 50, top: this.state.ViewportHeight * .02, textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', flex: 1}}>Done!</Text></View>
-                        </TouchableOpacity>
-                    
+                        <GreenButton 
+                            globalDims={{height: this.state.ViewportHeight, width: this.state.ViewportWidth}} 
+                            heightFactor={.1}
+                            widthFactor={.95}
+                        />
                     : <View></View>}
             
             </ScrollView>
+
             {!this.state.locked ? 
             
             <View >
@@ -329,8 +389,10 @@ export default class Converted extends React.Component {
                                 height: this.state.ViewportHeight * .1, 
                                 width: this.state.ViewportWidth }}
                         resize="contain"
+                        callback={this.checkInDoneHandler}
                 />
             </View>: <View></View>}
+
         </View>
         )
     }

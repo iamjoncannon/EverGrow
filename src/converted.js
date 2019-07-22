@@ -14,6 +14,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+console.log('stuf')
+
 const styles = StyleSheet.create({
 
     viewPortContainer: {
@@ -54,33 +56,83 @@ const styles = StyleSheet.create({
             alignSelf: "stretch",
             justifyContent: 'space-evenly',
             position: "relative",
-            marginBottom: 2
+            margin: 2
         },     
 })
 
 const StudentImage = (props) =>{
-
     
-    const {imageSource, dims } = props
-    console.log()
+    const { id, imageSource, dims, handleModalInit, name, checkedIn  } = props
 
+    const opacity = checkedIn ? 0.2 : 1;
     return (
 
-        <Image source={imageSource}
-               style={{height: dims, width: dims}} 
-        />
+        <TouchableOpacity onPress={()=> ! checkedIn ? handleModalInit(id) : " "} > 
+
+            <View style={{flex: 1, margin: 20}}>
+                <Image 
+                    source={imageSource}
+                    style={{height: dims, width: dims, margin: 20, opacity: opacity}} 
+                />
+                <Text style={{fontSize: 45, alignSelf: 'center'}}>{name}</Text>
+            </View>
+
+        </TouchableOpacity>
     )
 }
 
+const KidCheckIn = (props) => {
+
+    let { dims, handleCheckInSubmit} = props 
+    let { pic } = props.data
+    let kidKey = props.data.key
+
+    return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <Image
+                source={pic}
+                style={{ height: dims, width: dims, margin: 20 }}
+            />
+            <Text style={styles.Feelings}>How are you feeling today?</Text>
+            <Text style={styles.Feelings}>Select the emoji that best express your mood.</Text>
+            <FlatList
+                numColumns={4}
+                contentContainerStyle={{
+                    alignSelf: 'center'
+                }}
+                data={feelingsArray}
+                renderItem={({ item }) => (
+                    <View>
+                        <TouchableOpacity onPress={()=> handleCheckInSubmit(kidKey, item.key)}> 
+
+                            <Image 
+                                source={item.pic}
+                            />
+                            <Text>{item.feeling}</Text>
+                        
+                        </TouchableOpacity>
+                    </View>
+                )}
+            />
+        </View>
+    )
+}
 
 let kidsArray = []
 
-for(let i = 0; i < 10; i++){
+for(let i = 0; i < 5; i++){
     kidsArray.push({
+        name: "Kiddo " + i, 
         key: i,
         pic: i % 2 === 0 ? require("./girl.png") : require("./boy.png")
     })
 }
+
+let feelingsArray = []
+
+let feelingsPics = [require('./feelings1.png'), require('./feelings2.png'),require('./feelings3.png'), require('./feelings4.png'),require('./feelings5.png'),require('./feelings6.png')]
+let feelings = ['Happy', 'Sad', 'Angry', 'Nervous', 'Calm', 'Excited']
+feelingsPics.forEach( (item, i) => (feelingsArray.push({ key: i, pic: feelingsPics[i], feeling: feelings[i] })) )
 
 export default class Converted extends React.Component {
 
@@ -88,18 +140,38 @@ export default class Converted extends React.Component {
         super(props)
         this.state = {
             locked: false, // true/false,  locks screens
-            modal: "password", // "password", "kid checkin"
+            modalState: {
+                type: "password", // "password", "kid checkin"
+                id: null,
+                visible: false
+            },
             areKidsCheckedin: false,
             ViewportWidth: Dimensions.get("window").width,
-            ViewportHeight: Dimensions.get("window").height
+            ViewportHeight: Dimensions.get("window").height,
+            kidData : {}
         }
     }
 
     componentDidMount(){
+
         Dimensions.addEventListener("change", (change) => this.resizeLayout(change))
+        
+        // this is where you would load the data object for the kids
+        // with an AJAX call
+        const initialKidData = {}
+
+        kidsArray.forEach(kid => {
+            let thisKid = kid
+            thisKid["checkedIn"] = false 
+            
+            initialKidData[kid.key] = thisKid
+        })
+
+        this.setState({kidData : initialKidData})
     }
 
     componentDidUnMount(){
+
         Dimensions.removeEventListener("change")
     }
 
@@ -118,15 +190,64 @@ export default class Converted extends React.Component {
         })
     }
 
+    handleCheckInSubmit = (kidKey, itemKey) => {
+
+        let newKidData = {...this.state.kidData}
+
+        newKidData[kidKey].checkedIn = true 
+        newKidData[kidKey].mood = feelings[itemKey] 
+
+        let isEveryOneCheckedInYet = true
+
+        // check if they're all checked in
+        for (let kid in newKidData){
+            if (!newKidData[kid].checkedIn){
+                isEveryOneCheckedInYet = false
+            }
+        }
+
+        this.setState({
+            areKidsCheckedin: isEveryOneCheckedInYet,
+            kidData: newKidData,
+            modalState: {
+                ...this.state.modalState,
+                visible: false
+            }
+        })
+    }
+
+    handleModalInit = (id) => {
+
+        if(this.state.locked){
+
+            this.setState({
+                selectedKid : id,
+                modalState:{
+                    type: "kidCheckin",
+                    visible: true
+                }
+            })
+        }
+    }
+
+    handleCheckInDone = () => {
+
+        this.setState({
+
+        })
+    }
+
     render(){
 
+        console.log("here's state: ", this.state)
+        
         return (
             <View style={styles.viewPortContainer}>
 
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={false}
+                visible={this.state.modalState.visible}
                 style={{ opacity: 10}}
             >
                 <View 
@@ -141,10 +262,15 @@ export default class Converted extends React.Component {
                 >
                     <View 
                         style={{
-                            height: this.state.ViewportHeight * .6,
-                            width: this.state.ViewportWidth * .5,
+                            height: this.state.ViewportHeight * .7,
+                            width: this.state.ViewportWidth * .6,
                             backgroundColor: 'white',}}
                     >
+                    {this.state.modalState.type == "kidCheckin" ? <KidCheckIn 
+                                                                        data={this.state.kidData[this.state.selectedKid]}
+                                                                        dims={this.state.ViewportWidth * .1}
+                                                                        handleCheckInSubmit={this.handleCheckInSubmit}
+                                                                  /> : <View></View>}
                     </View>
                 </View> 
             </Modal>
@@ -170,13 +296,17 @@ export default class Converted extends React.Component {
                         <FlatList
                             numColumns={5}
                             contentContainerStyle={{
-                                    alignSelf: 'center'
+                                    alignSelf: 'center',
                                 }}
                             data={kidsArray}
                             renderItem={({item})=>(
-                                <StudentImage 
+                                <StudentImage
+                                    name={item.name}
+                                    id={item.key} 
                                     imageSource={item.pic}
-                                    dims={this.state.ViewportWidth * .16}
+                                    dims={this.state.ViewportWidth * .14}
+                                    handleModalInit={this.handleModalInit}
+                                    checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
                                 />
                             )}
                         />
@@ -184,7 +314,10 @@ export default class Converted extends React.Component {
                 </View>
 
                     {this.state.areKidsCheckedin ? 
-                        <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', justifyContent: 'center', height: this.state.ViewportHeight * .1, width: this.state.ViewportWidth * .95, alignItems: 'center', alignSelf: 'center', flex: 1, margin: 50, flexDirection: 'column' }}><Text style={{ fontSize: 50, top: this.state.ViewportHeight * .02, textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', flex: 1}}>Done!</Text></View>
+                        <TouchableOpacity onPress={this.handleCheckInDone}>
+                            <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', justifyContent: 'center', height: this.state.ViewportHeight * .1, width: this.state.ViewportWidth * .95, alignItems: 'center', alignSelf: 'center', flex: 1, margin: 50, flexDirection: 'column' }}><Text style={{ fontSize: 50, top: this.state.ViewportHeight * .02, textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', flex: 1}}>Done!</Text></View>
+                        </TouchableOpacity>
+                    
                     : <View></View>}
             
             </ScrollView>

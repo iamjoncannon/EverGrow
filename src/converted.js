@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import KidCheckIn from './KidCheckIn'
+import styles from './styles'
 
 import {
     SafeAreaView,
@@ -11,63 +13,12 @@ import {
     Dimensions,
     FlatList,
     Modal,
-    TouchableOpacity
+    TouchableOpacity, 
+    TextInput,
+    Keyboard
 } from 'react-native';
 
 console.log('stuf')
-
-const styles = StyleSheet.create({
-
-    viewPortContainer: {
-        display: "flex",
-        flex: 1, 
-        flexDirection: "column",
-        justifyContent: "center",
-    },
-
-    FooterImage: {
-        margin: 1,
-        alignSelf: "center"
-    },
-
-        Date: {
-            alignSelf: "center",
-            fontSize: 22,
-            fontFamily: "Avenir-Medium"
-        },
-        Title: {
-            alignSelf: "center",
-            fontSize: 80,
-            fontFamily: "Avenir-Black"
-        },
-        Feelings: {
-            alignSelf: "center",
-            fontSize: 36,
-            fontFamily: "Avenir-Medium",
-            marginBottom: 5
-        },
-        pictureRowContainer: { 
-            flex: 1, 
-            flexDirection: 'column', 
-            alignItems: "stretch" 
-        }, 
-        PictureRow: {
-            flexDirection: 'row',
-            alignSelf: "stretch",
-            justifyContent: 'space-evenly',
-            position: "relative",
-            margin: 2
-        },  
-        greenButton : { 
-            backgroundColor: 'rgba(131,242,196, 1.0)', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            alignSelf: 'center', 
-            flex: 1, 
-            margin: 50, 
-            flexDirection: 'column'
-        }
-})
 
 const StudentImage = (props) =>{
     
@@ -89,82 +40,16 @@ const StudentImage = (props) =>{
         </TouchableOpacity>
     )
 }
-class KidCheckIn extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            selected: null
-        }
-    }
-
-    handleSelectFeeling = (id) => {
-        this.setState({
-            selected: id
-        })
-    }
-
-    render(){
-
-        let { dims, handleCheckInSubmit} = this.props 
-        let { pic } = this.props.data
-        let kidKey = this.props.data.key
-
-        return (
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <Image
-                    source={pic}
-                    style={{ height: dims, width: dims }}
-                />
-                <Text style={styles.Feelings}>How are you feeling today?</Text>
-                <Text style={styles.Feelings}>Select the emoji that best express your mood.</Text>
-                <FlatList
-                    numColumns={4}
-                    contentContainerStyle={{
-                        alignSelf: 'center',
-                        flex: 1
-                    }}
-                    data={feelingsArray}
-                    renderItem={({ item }) => (
-                        <View>
-                            <TouchableOpacity onPress={()=>{this.setState({selected: item.key})}}> 
-
-                                <Image 
-                                    source={item.pic}
-                                    style={{margin: 20, opacity : this.state.selected !== null & item.key !== this.state.selected ? .2 : 1 }}
-                                />
-                                <Text style={{alignSelf: 'center', fontSize: 20 }}>{item.feeling}</Text>
-                            
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
-
-                {
-                    this.state.selected !== null ? 
-
-                        <TouchableOpacity onPress={() => handleCheckInSubmit(kidKey, this.state.selected)}>
-
-                            <View style={{ backgroundColor: 'rgba(131,242,196, 1.0)', zIndex: 2, width: this.props.ViewportWidth * .6, height: 80 }}>
-                                <Text style={{...styles.Feelings, marginTop: 15}}>Done</Text>           
-                            </View>
-                        </TouchableOpacity>
-
-                    :<View></View>
-                }
-            </View>
-        )
-    }
-}
 
 const GreenButton = (props) => {
 
     let { height, width } = props.globalDims
-    let { heightFactor, widthFactor } = props
+    let { heightFactor, widthFactor, callback } = props
 
     return (
 
-        <TouchableOpacity onPress={this.callback}>
+        <TouchableOpacity onPress={callback}>
             <View 
                 style={{ ...styles.greenButton, height: height * heightFactor, width: width * widthFactor}}
             >
@@ -176,7 +61,7 @@ const GreenButton = (props) => {
 
 let kidsArray = []
 
-for(let i = 0; i < 15; i++){
+for(let i = 0; i < 1; i++){
     kidsArray.push({
         name: "Kiddo " + i, 
         key: i,
@@ -184,7 +69,7 @@ for(let i = 0; i < 15; i++){
     })
 }
 
-let feelingsArray = []
+export const feelingsArray = []
 
 let feelingsPics = [require('./feelings1.png'), require('./feelings2.png'),require('./feelings3.png'), require('./feelings4.png'),require('./feelings5.png'),require('./feelings6.png')]
 let feelings = ['Happy', 'Sad', 'Angry', 'Nervous', 'Calm', 'Excited']
@@ -211,6 +96,17 @@ export default class Converted extends React.Component {
     componentDidMount(){
 
         Dimensions.addEventListener("change", (change) => this.resizeLayout(change))
+
+        // manage the keyboard
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            this._keyboardDidShow,
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            this._keyboardDidHide,
+        );
+
         
         // this is where you would load the data object for the kids
         // with an AJAX call
@@ -229,6 +125,19 @@ export default class Converted extends React.Component {
     componentDidUnMount(){
 
         Dimensions.removeEventListener("change")
+    }
+
+    _keyboardDidShow() {
+
+    }
+
+    _keyboardDidHide() {
+
+    }
+    
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
     resizeLayout = (change) => {
@@ -286,10 +195,11 @@ export default class Converted extends React.Component {
         }
     }
 
-    handleCheckInDone = () => {
+    handlecheckInDone = () => {
 
+        console.log('hitting handlecheckindone')
         this.setState({
-
+            modalState : { ...this.state.modalState, type: 'password', visible: true}
         })
     }
 
@@ -322,18 +232,33 @@ export default class Converted extends React.Component {
                             width: this.state.ViewportWidth * .6,
                             backgroundColor: 'white',}}
                     >
-                    {this.state.modalState.type == "kidCheckin" ? <KidCheckIn 
+                    {this.state.modalState.type === "kidCheckin" ? <KidCheckIn 
                                                                         data={this.state.kidData[this.state.selectedKid]}
                                                                         dims={this.state.ViewportWidth * .1}
                                                                         handleCheckInSubmit={this.handleCheckInSubmit}
                                                                         ViewportHeight={this.state.ViewportHeight}
                                                                         ViewportWidth={this.state.ViewportWidth}
-                                                                  /> : <View></View>}
+                                                                  /> : 
+                        this.state.modalState.type === "password" ? 
+                        <View>
+                            <TextInput
+                                onSubmitEditing={Keyboard.dismiss}
+                                autoFocus={true}
+                                editable={true}
+                                keyboardType='default'
+                                keyboardAppearance={"dark"}
+                                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                            />
+                        </View>
+
+                        : <View></View>
+                    }
                     </View>
                 </View> 
             </Modal>
 
             <ScrollView>
+                {/* header */}
                 <TouchableOpacity onPress={this.toggleLock}> 
                     <Image source={ this.state.locked ? require("./lockedheader.png") : require("./sun.png")} 
                         resize="cover" 
@@ -349,6 +274,7 @@ export default class Converted extends React.Component {
                 <Text style={styles.Feelings}>How are you feeling today?</Text>
                 <View style={styles.pictureRowContainer}>
 
+                {/* pictures */}
                     <View style={styles.PictureRow}>
 
                         <FlatList
@@ -375,24 +301,28 @@ export default class Converted extends React.Component {
                         <GreenButton 
                             globalDims={{height: this.state.ViewportHeight, width: this.state.ViewportWidth}} 
                             heightFactor={.1}
-                            widthFactor={.95}
+                            widthFactor={1}
+                            callback={this.handlecheckInDone}
                         />
                     : <View></View>}
             
             </ScrollView>
 
+            {/* footer */}
+
             {!this.state.locked ? 
-            
             <View >
+
                 <Image source={require("./footer.png")} 
                        style={{ ...styles.FooterImage, 
                                 height: this.state.ViewportHeight * .1, 
                                 width: this.state.ViewportWidth }}
                         resize="contain"
-                        callback={this.checkInDoneHandler}
+                        
                 />
             </View>: <View></View>}
 
+        
         </View>
         )
     }

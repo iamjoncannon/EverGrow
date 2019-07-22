@@ -2,21 +2,7 @@ import React, { Fragment } from 'react';
 
 import { Image, ImageBackground, Dimensions, View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 
-const styles = StyleSheet.create({
-
-    greenButton: {
-        backgroundColor: 'rgba(131,242,196, 1.0)',
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // alignSelf: 'center',
-        // flex: 1,
-        // margin: 50,
-        // flexDirection: 'column'
-    }
-})
-
-
-const Tree = () => {
+const Tree = (props) => {
 
     return (
     
@@ -48,7 +34,7 @@ const Tree = () => {
 
             </ImageBackground>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.handleNext}>
                 <View
                     style={{ zIndex: 2, backgroundColor: 'rgba(131,242,196, 1.0)', height: 60, width: 282 }}
                 >

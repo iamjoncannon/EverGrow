@@ -203,7 +203,7 @@ export default class Converted extends React.Component {
                 {/* header */}
                 <TouchableOpacity onPress={this.toggleLock}> 
 
-                    <Image source={ this.state.locked ? require("./lockedheader.png") : require("./sun.png")} 
+                    <Image source={ require("./sun.png")} 
                         resize="cover" 
                                             style={{
                                                 height: 231,

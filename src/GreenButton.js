@@ -14,6 +14,7 @@ import {
     PixelRatio
 } from 'react-native';
 
+import styles from './styles'
 
 const GreenButton = (props) => {
 

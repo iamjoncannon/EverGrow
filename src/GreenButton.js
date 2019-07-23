@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
     ScrollView,
@@ -17,15 +17,21 @@ import {
 
 const GreenButton = (props) => {
 
-    let {height, width} = props.globalDims
-    let {heightFactor, widthFactor, callback} = props
+    let { height, width } = props.globalDims
+    let { heightFactor, widthFactor, callback } = props
 
     return (
 
         <TouchableOpacity onPress={callback}>
             <View style={
                 {
-                    ...styles.greenButton,
+                    backgroundColor: 'rgb(131,242,196)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    flex: 1,
+                    margin: 50,
+                    flexDirection: 'column',
                     height: 68,
                     width: 777
                 }

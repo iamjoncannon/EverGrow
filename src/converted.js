@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import KidCheckIn from './KidCheckIn'
+import PasswordModal from './PasswordModal'
 import StudentImage from './StudentImage'
 import GreenButton from './GreenButton'
 import styles from './styles'
-import {kidsArray, feelingsArray, feelings } from './data'
+import { kidsArray, feelingsArray, feelings } from './data'
 
 import {
     ScrollView,
@@ -71,7 +72,7 @@ export default class Converted extends React.Component {
 
         Dimensions.removeEventListener("change")
     }
-    
+
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
@@ -140,7 +141,7 @@ export default class Converted extends React.Component {
     }
 
     goToTop = () => {
-        this.scroll.scrollTo({x: 0, y: 0, animated: true});
+        this.scroll.scrollTo({ x: 0, y: 0, animated: true });
     }
 
     render() {
@@ -148,169 +149,177 @@ export default class Converted extends React.Component {
         console.log("here's state: ", this.state)
 
         return (
+
             <View style={styles.viewPortContainer}>
+            <View>
 
                 <Modal
                     animationType="fade"
                     transparent={true}
                     visible={this.state.modalState.visible}
-                    style={{ opacity: 10}}
+                    style={{ opacity: 10 }}
                 >
-                    <View 
-                        style={{ 
-                                flex: 1, 
-                                width: this.state.ViewportWidth,
-                                alignItems: 'center', 
-                                justifyContent: 'center',
-                                alignSelf: 'center',
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        }}
+                    <View style={{
+                        flex: 1,
+                        width: this.state.ViewportWidth,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        alignSelf: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }}
                     >
-                        <View 
-                            style={{
+
+                        {this.state.modalState.type === "kidCheckin" ?
+                            <View style={{
                                 height: this.state.ViewportHeight * .7,
                                 width: this.state.ViewportWidth * .6,
-                                backgroundColor: 'white',}}
-                        >
-                        {this.state.modalState.type === "kidCheckin" ? <KidCheckIn 
-                                                                            data={this.state.kidData[this.state.selectedKid]}
-                                                                            dims={this.state.ViewportWidth * .1}
-                                                                            handleCheckInSubmit={this.handleCheckInSubmit}
-                                                                            ViewportHeight={this.state.ViewportHeight}
-                                                                            ViewportWidth={this.state.ViewportWidth}
-                                                                    /> : 
-                            this.state.modalState.type === "password" ? 
-
-                            <View>
-                                <TextInput
-                                    onSubmitEditing={Keyboard.dismiss}
-                                    autoFocus={true}
-                                    editable={true}
-                                    keyboardType='default'
-                                    keyboardAppearance={"dark"}
-                                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                backgroundColor: 'white',
+                            }}>
+                                <KidCheckIn
+                                    data={this.state.kidData[this.state.selectedKid]}
+                                    dims={this.state.ViewportWidth * .1}
+                                    handleCheckInSubmit={this.handleCheckInSubmit}
+                                    ViewportHeight={this.state.ViewportHeight}
+                                    ViewportWidth={this.state.ViewportWidth}
                                 />
-                            </View>
+                            </View> :
 
-                            : <View></View>
+                            this.state.modalState.type === "password" ?
+                                <View style={{
+                                    height: 286,
+                                    width: 675,
+                                    backgroundColor: 'white',
+                                }}>
+                                    <PasswordModal>
+
+                                    </PasswordModal>
+                                    <TextInput
+                                        onSubmitEditing={Keyboard.dismiss}
+                                        autoFocus={true}
+                                        editable={true}
+                                        keyboardType='default'
+                                        keyboardAppearance={"dark"}
+                                        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                                    />
+                                </View> : 
+                            <View></View>
                         }
-                        </View>
-                    </View> 
+                    </View>
                 </Modal>
-               
+            </View>
             <ScrollView ref={(c) => { this.scroll = c }}>
 
                 {/* header */}
-                <TouchableOpacity onPress={this.toggleLock}> 
+                <TouchableOpacity onPress={this.toggleLock}>
 
-                    <Image source={ this.state.locked ? require("./lockedheader.png") : require("./sun.png")} 
-                        resize="cover" 
-                                            style={{
-                                                height: 231,
-                                                width: 1112
-                                            }}     
+                    <Image source={this.state.locked ? require("./lockedheader.png") : require("./sun.png")}
+                        resize="cover"
+                        style={{
+                            height: 231,
+                            width: 1112
+                        }}
                     />
                 </TouchableOpacity>
-               
+
                 <Text style={styles.Date}>Wednesday, July 31, 2019</Text>
                 <Text style={styles.Title}>Welcome Class!</Text>
                 <Text style={styles.Feelings}>How are you feeling today?</Text>
                 <View style={styles.pictureRowContainer}>
 
-                {/* pictures */}
+                    {/* pictures */}
                     <View style={styles.PictureRow}>
 
                         <FlatList
                             numColumns={5}
                             contentContainerStyle={{
-                                    alignSelf: 'center',
-                                }}
-                                data={kidsArray}
-                                renderItem={({ item }) => (
-                                    <StudentImage
-                                        name={item.name}
-                                        id={item.key}
-                                        imageSource={item.pic}
-                                        dims={this.state.ViewportWidth * .14}
-                                        handleModalInit={this.handleModalInit}
-                                        checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
-                                    />
-                                )}
-                            />
-                        </View>
-                    </View>
-                
-                    {/* back to top button */}
-                    
-                    <View>
-                        <TouchableOpacity title='Go To Top' onPress={this.goToTop} >
-                            <Image source={require("./backToTop.png")}
-                                style={{
-                                    alignSelf: "center",
-                                    height: 50,
-                                    width: 50
-                                }}
-                            />
-                        </TouchableOpacity>
-                        <Text style={{
-                            fontSize: 22,
-                            alignSelf: 'center',
-                            fontFamily: "Avenir-Medium",
-                            color: 'rgb(1, 0, 115)'
-                        }}>Back to Top</Text>
-                    </View>
-
-                    {this.state.areKidsCheckedin ?
-                        <GreenButton
-                            globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
-                            heightFactor={.1}
-                            widthFactor={1}
-                            callback={this.handlecheckInDone}
-                        />
-                        : <View></View>}
-
-                </ScrollView>
-
-                {/* footer */}
-
-                {!this.state.locked ?
-                    <View>
-
-                        <Image source={require("./footer.png")}
-                            style={{
-                                ...styles.FooterImage,
-                                height: this.state.ViewportHeight * .1,
-                                width: this.state.ViewportWidth
+                                alignSelf: 'center',
                             }}
-                            resize="contain"
-
+                            data={kidsArray}
+                            renderItem={({ item }) => (
+                                <StudentImage
+                                    name={item.name}
+                                    id={item.key}
+                                    imageSource={item.pic}
+                                    dims={this.state.ViewportWidth * .14}
+                                    handleModalInit={this.handleModalInit}
+                                    checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
+                                />
+                            )}
                         />
-                    </View> : <View></View>}
+                    </View>
+                </View>
 
+                {/* back to top button */}
 
-            </View>
-        )
-    }
+                <View>
+                    <TouchableOpacity title='Go To Top' onPress={this.goToTop} >
+                        <Image source={require("./backToTop.png")}
+                            style={{
+                                alignSelf: "center",
+                                height: 50,
+                                width: 50
+                            }}
+                        />
+                    </TouchableOpacity>
+                    <Text style={{
+                        fontSize: 22,
+                        alignSelf: 'center',
+                        fontFamily: "Avenir-Medium",
+                        color: 'rgb(1, 0, 115)'
+                    }}>Back to Top</Text>
+                </View>
+
+                {this.state.areKidsCheckedin ?
+                    <GreenButton
+                        globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
+                        heightFactor={.1}
+                        widthFactor={1}
+                        callback={this.handlecheckInDone}
+                    />
+                    : <View></View>}
+
+            </ScrollView>
+            
+         {/* footer */}
+
+        {
+            !this.state.locked ?
+                <View>
+
+                    <Image source={require("./footer.png")}
+                        style={{
+                            ...styles.FooterImage,
+                            height: this.state.ViewportHeight * .1,
+                            width: this.state.ViewportWidth
+                        }}
+                        resize="contain"
+
+                    />
+                </View> : <View></View>
+        }
+        </View>
+    )
+}
 }
 
 
 /*
 
 this.state.modalState.type === "password" ? <View>
-    <TextInput onSubmitEditing={
-            Keyboard.dismiss
-        }
-        autoFocus={true}
-        editable={true}
-        keyboardType='default'
-        keyboardAppearance={"dark"}
-        style={
-            {
-                height: 40,
-                borderColor: 'gray',
-                borderWidth: 1
+            <TextInput onSubmitEditing={
+                Keyboard.dismiss
             }
-        }/>
-</View>
+                autoFocus={true}
+                editable={true}
+                keyboardType='default'
+                keyboardAppearance={"dark"}
+                style={
+                    {
+                        height: 40,
+                        borderColor: 'gray',
+                        borderWidth: 1
+                    }
+                } />
+        </View>
 
 */

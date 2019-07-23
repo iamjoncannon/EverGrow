@@ -32,7 +32,9 @@ export default class KidCheckIn extends React.Component {
         let kidKey = this.props.data.key
 
         return (
-            <View style={{ flex: 1, alignItems: 'center', width: 620, height: 524}}>
+
+            <View style={{ flex: 1, alignSelf: 'center', alignItems: 'center', width: 620, height: 524}}>
+
                 <Image
                     source={pic}
                     style={{ height: 108, width: 108, marginTop: 20}}

@@ -210,14 +210,14 @@ export default class Converted extends React.Component {
             <ScrollView ref={(c) => { this.scroll = c }}>
 
                 {/* header */}
-                <TouchableOpacity onPress={this.toggleLock}>
+                <TouchableOpacity onPress={this.toggleLock}> 
 
-                    <Image source={this.state.locked ? require("./lockedheader.png") : require("./sun.png")}
-                        resize="cover"
-                        style={{
-                            height: 231,
-                            width: 1112
-                        }}
+                    <Image source={ require("./sun.png")} 
+                        resize="cover" 
+                                            style={{
+                                                height: 231,
+                                                width: 1112
+                                            }}     
                     />
                 </TouchableOpacity>
 

@@ -1,7 +1,7 @@
 
 export const kidsArray = []
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 4; i++) {
     kidsArray.push({
         name: "Kiddo " + i,
         key: i,

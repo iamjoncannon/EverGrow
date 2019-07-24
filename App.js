@@ -18,6 +18,7 @@ import {
 
 import Root from './src/root'
 import Tree from './src/components/treeopen'
+import DashBoard from './src/components/dashboard'
 
 import {
   Header,
@@ -46,10 +47,13 @@ class App extends React.Component {
   render(){
 
     return (
-      
-      this.state.next ? <Root/> : <Tree handleNext={this.handleNext} />
+      <DashBoard />
     );
   }
 };
   
 export default App;
+
+/*
+  this.state.next ? <Root/> : <Tree handleNext={this.handleNext} />
+*/

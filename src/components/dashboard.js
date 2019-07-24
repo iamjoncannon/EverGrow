@@ -18,6 +18,8 @@ import {
 
 import styles from './styles'
 import TodayBox from './todayBox'
+import OverallBox from './OverallBox'
+
 // import console = require('console');
 
 console.log("vscode is really annoying")
@@ -58,7 +60,7 @@ const thisStyle = StyleSheet.create({
     }
 })
 
-import { feelingsArray } from './data'
+import { feelingsArray, kidsArray } from './data'
 
 export const TopDashBox = (props) => {
 
@@ -153,7 +155,7 @@ export default class DashBoard extends React.Component {
                 {/* Selected Middle Section Container */}
                 <View style={{height: 670, borderWidth: 1, borderColor: 'grey', flex: 1}}>
 
-                    { this.state.subTab === "Today" ? <TodayBox /> : <View></View> }
+                    { this.state.subTab === "Today" ? <TodayBox /> : <OverallBox></OverallBox> }
 
                 </View>
 
@@ -167,6 +169,7 @@ export default class DashBoard extends React.Component {
                     <TextInput placeholder="Type something" placeholderTextColor={projectBlue} style={{alignSelf: 'center', marginLeft: 30, height: 55, width: 456, borderColor: 'black', borderWidth: 1}}/>
                     
                     <DashText wt="Medium" size={25} text="Filter by:" others={{alignSelf: 'center', marginLeft: 30}}/> 
+                    
                     <FlatList
                         numColumns={6}
                         contentContainerStyle={{
@@ -181,15 +184,40 @@ export default class DashBoard extends React.Component {
 
                 </View> 
 
-                <View style={{width: 1160, height: 250, backgroundColor: 'rgba(151, 151, 151, .1)'}}>
+                <View>
+                    
+                    <ScrollView style={{flex: 1, width: 1160, backgroundColor: 'rgba(151, 151, 151, .1)'}}>
+      
+                        <View style={{alignSelf: 'center'}}>
+
+                            <FlatList
+                                numColumns={6}
+                                contentContainerStyle={{
+                                        alignSelf: 'flex-end',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexDirection: 'row',
+                                        height: 150, 
+                                    }}
+                                data={kidsArray}
+                                renderItem={({item})=>(
+
+                                    <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>
+                                )}
+                            />
+                        </View>
+
+                    </ScrollView>
 
                 </View>
 
                 </ScrollView>
+
                 <Image source={require("../assets/DashBoard_footer.png")} 
                         resize="cover" 
-                        style={{ height: Dimensions.get("window").height * .1, width: Dimensions.get("window").width }}     
+                        style={{ height: Dimensions.get("window").height * .12, width: Dimensions.get("window").width }}     
                 />
+
             </View> 
         )
     }

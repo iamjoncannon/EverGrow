@@ -33,26 +33,25 @@ class App extends React.Component {
   constructor(props) {
       super(props)
       this.state = {
-          next: false
+          scene: 'tree'
       }
   }
 
-  handleNext = () =>{
+  handleNext = (scene) =>{
     this.setState({
-      next: true
+      scene: scene
     })
   }
 
   
   render(){
     return (
-      this.state.next === true ? <Root/>:<Tree handleNext={this.handleNext}/> 
+      
+      this.state.scene === 'root' ? <Root handleNext={this.handleNext}/> : 
+      this.state.scene === 'dash' ? <DashBoard /> :
+      <Tree handleNext={this.handleNext}/> 
     );
   }
 };
   
 export default App;
-
-/*
-  this.state.next ? <Root/> : <Tree handleNext={this.handleNext} />
-*/

@@ -34,7 +34,7 @@ const Tree = (props) => {
 
             </ImageBackground>
 
-            <TouchableOpacity onPress={props.handleNext}>
+            <TouchableOpacity onPress={()=>props.handleNext('root')}>
                 <View
                     style={{ zIndex: 2, backgroundColor: 'rgba(131,242,196, 1.0)', height: 60, width: 282 }}
                 >

@@ -100,7 +100,7 @@ export default class DashBoard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            subTab: 'Overall'
+            subTab: 'Today'
         }
     }
 
@@ -163,7 +163,7 @@ export default class DashBoard extends React.Component {
                 <DashText wt="Black" size={35} text="My Students" others={{marginTop: 30, marginLeft: 30}}/>
                 <DashText wt="Medium" size={16} text="View individual student's progress details." others={{marginLeft: 30}}/>
                 
-                <View style={{flex: 1, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{flex: 1, marginTop: 10, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
 
                     <TextInput placeholder="Type something" placeholderTextColor={projectBlue} style={{alignSelf: 'center', marginLeft: 30, height: 55, width: 456, borderColor: 'black', borderWidth: 1}}/>
                     

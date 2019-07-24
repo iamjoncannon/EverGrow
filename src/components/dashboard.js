@@ -19,10 +19,11 @@ import {
 import styles from './styles'
 import TodayBox from './todayBox'
 import OverallBox from './OverallBox'
+import Footer from './Footer'
 
 // import console = require('console');
 
-console.log("vscode is really annoying")
+console.log("vscode is really annoying sometimes")
 
 const projectBlue = 'rgb(1, 0, 115)'
 
@@ -212,11 +213,11 @@ export default class DashBoard extends React.Component {
 
                 </ScrollView>
 
-                <Image source={require("../assets/DashBoard_footer.png")} 
-                        resize="cover" 
-                        style={{ height: Dimensions.get("window").height * .12, width: Dimensions.get("window").width }}     
-                />
-
+                <View style={{ height: 99, width: 1112 }}>
+                    <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
+                        <Footer />
+                    </View>
+                </View> 
             </View> 
         )
     }

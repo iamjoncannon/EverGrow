@@ -5,6 +5,7 @@ import StudentImage from './components/StudentImage'
 import GreenButton from './components/GreenButton'
 import styles from './components/styles'
 import {kidsArray, feelingsArray, feelings} from './components/data'
+import Footer from './components/Footer'
 
 import {
     ScrollView,
@@ -129,7 +130,7 @@ export default class Root extends React.Component {
 
         if(type === 'password'){
 
-            this.props.handleNext('dash')
+            this.props.handleNext('dash', this.state.kidData)
 
         }
         else{
@@ -328,9 +329,7 @@ export default class Root extends React.Component {
                     !this.state.locked ?
                         <View style={{ height: 99, width: 1112 }}>
                             <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
-                                <Footer
-
-                                />
+                                <Footer />
                             </View>
                         </View> : <View></View>
                 }

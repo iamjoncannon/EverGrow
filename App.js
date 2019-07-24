@@ -16,8 +16,8 @@ import {
   StatusBar,
 } from 'react-native';
 
-import ConvertedContainer from './src/converted'
-import Tree from './src/treeopen'
+import Root from './src/root'
+import Tree from './src/components/treeopen'
 
 import {
   Header,
@@ -47,7 +47,7 @@ class App extends React.Component {
 
     return (
       
-      this.state.next ? <ConvertedContainer/> : <Tree handleNext={this.handleNext} />
+      this.state.next ? <Root/> : <Tree handleNext={this.handleNext} />
     );
   }
 };

@@ -125,14 +125,22 @@ export default class Root extends React.Component {
         })
     }
 
-    closeModal = (param) => {
+    closeModal = (type) => {
 
-        this.setState({
-            modalState: {
-                ...this.state.modalState,
-                visible: false
-            }
-        })
+        if(type === 'password'){
+
+            this.props.handleNext('dash')
+
+        }
+        else{
+
+            this.setState({
+                modalState: {
+                    ...this.state.modalState,
+                    visible: false
+                }
+            })
+        }
     }
 
     handleModalInit = (id) => {
@@ -149,13 +157,14 @@ export default class Root extends React.Component {
         }
     }
 
-    handlecheckInDone = () => {
+    handlecheckInDone = (scene) => {
 
         this.setState({
             modalState: {
                 ...this.state.modalState,
                 type: 'password',
-                visible: true
+                visible: true,
+                next: scene
             }
         })
     }
@@ -302,12 +311,13 @@ export default class Root extends React.Component {
                         }}>Back to Top</Text>
                     </View>
 
+                    {/* finish checkin button  */}
                     {this.state.locked == true ?
                         <GreenButton
                             globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
                             heightFactor={.1}
                             widthFactor={1}
-                            callback={this.handlecheckInDone}
+                            callback={()=>this.handlecheckInDone('dash')}
                         />
                         : <View></View>}
 
@@ -316,43 +326,16 @@ export default class Root extends React.Component {
                 {/* footer */}
                 {
                     !this.state.locked ?
-                        <View>
+                        <View style={{ height: 99, width: 1112 }}>
+                            <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
+                                <Footer
 
-                            <Image source={require("./assets/footer.png")}
-                                style={{
-                                    ...styles.FooterImage,
-                                    height: this.state.ViewportHeight * .1,
-                                    width: this.state.ViewportWidth
-                                }}
-                                resize="contain"
-
-                            />
+                                />
+                            </View>
                         </View> : <View></View>
                 }
             </View>
         )
     }
 }
-
-
-/*
-
-this.state.modalState.type === "password" ? <View>
-            <TextInput onSubmitEditing={
-                Keyboard.dismiss
-            }
-                autoFocus={true}
-                editable={true}
-                keyboardType='default'
-                keyboardAppearance={"dark"}
-                style={
-                    {
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1
-                    }
-                } />
-        </View>
-
-*/
 

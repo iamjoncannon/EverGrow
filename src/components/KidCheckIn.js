@@ -33,12 +33,12 @@ export default class KidCheckIn extends React.Component {
 
         return (
 
-            <View style={{ flex: 1, alignSelf: 'center', width: 620, height: 524 }}>
-                {
-                    this.state.selected == null ?
+            <View style={{ flex: 1,width: 620, height: 524 }}>
+
+                
 
                         <TouchableOpacity onPress={() => closeModal(this.state.selected)}>
-                            <View style={{ zIndex: 2, width: 20, height: 20, position: 'absolute', right: 35, top: 35,}}>
+                            <View style={{ zIndex: 2, width: 20, height: 20, position: 'absolute', right: 0, top: 35}}>
                                 <Image
                                     source={require("../assets/close.png")}
                                     style={{
@@ -49,8 +49,7 @@ export default class KidCheckIn extends React.Component {
                                 />
                             </View>
                         </TouchableOpacity>
-                        : <View></View>
-                }
+                <View style={{ flex: 1, alignSelf: 'center', marginLeft: 60}}>
 
                 <Image
                     source={pic}
@@ -89,6 +88,7 @@ export default class KidCheckIn extends React.Component {
                         </View>
                     )}
                 />
+                </View>
                 {
                     this.state.selected !== null ?
 

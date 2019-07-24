@@ -8,7 +8,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import {feelingsArray} from './data'
+import { feelingsArray } from './data'
 
 export default class KidCheckIn extends React.Component {
 
@@ -27,28 +27,47 @@ export default class KidCheckIn extends React.Component {
 
     render() {
 
-        let { dims, handleCheckInSubmit } = this.props
+        let { handleCheckInSubmit, closeModal } = this.props
         let { pic, name } = this.props.data
         let kidKey = this.props.data.key
 
         return (
 
-            <View style={{ flex: 1, alignSelf: 'center', alignItems: 'center', width: 620, height: 524}}>
+            <View style={{ flex: 1, alignSelf: 'center', width: 620, height: 524 }}>
+                {
+                    this.state.selected == null ?
+
+                        <TouchableOpacity onPress={() => closeModal(this.state.selected)}>
+                            <View style={{ zIndex: 2, width: 20, height: 20, position: 'absolute', right: 35, top: 35,}}>
+                                <Image
+                                    source={require("./close.png")}
+                                    style={{
+                                        height: 20,
+                                        width: 20,
+                                        position: 'absolute',
+                                    }}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        : <View></View>
+                }
 
                 <Image
                     source={pic}
-                    style={{ height: 108, width: 108, marginTop: 20}}
+                    style={{ height: 108, width: 108, marginTop: 20, alignSelf: "center" }}
                 />
                 <Text style={{
                     fontSize: 22,
                     fontFamily: "Avenir-Heavy",
-                    color: 'rgb(1, 0, 115)'
-                    }}>{"\n"}Hi {name}! How are you feeling today?</Text>
+                    color: 'rgb(1, 0, 115)',
+                    alignSelf: "center"
+                }}>{"\n"}Hi {name}! How are you feeling today?</Text>
                 <Text style={{
                     fontSize: 22,
                     fontFamily: "Avenir-Medium",
-                    color: 'rgb(15, 15, 133)'
-                    }}>Select the emoji that best expresses your mood.</Text>
+                    color: 'rgb(15, 15, 133)',
+                    alignSelf: "center"
+                }}>Select the emoji that best expresses your mood.</Text>
                 <FlatList
                     numColumns={4}
                     contentContainerStyle={{
@@ -92,3 +111,18 @@ export default class KidCheckIn extends React.Component {
         )
     }
 }
+// // this.toggleLock == false ?
+// <Image source={require("./unlock.png")}
+// resize="cover"
+// style={{
+//     height: 56,
+//     width: 56
+// }}
+// /> : <Image source={require("./Lock.png")}
+// resize="cover"
+// style={{
+//     height: 56,
+//     width: 56
+// }}
+// />
+// }

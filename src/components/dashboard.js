@@ -51,7 +51,6 @@ const thisStyle = StyleSheet.create({
         margin: 8,
         justifyContent: 'space-around',
         alignItems: 'center', 
-        
     },
     dashItem: {
         fontSize: 36,

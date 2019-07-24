@@ -23,8 +23,42 @@ const thisStyle = StyleSheet.create({
         fontSize: 36,
         fontFamily: 'Avenir-Heavy',
         color: 'rgb(1, 0, 115)'
+    },
+    tableHeader: {
+
     }
 })
+
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+
+const tableHead = ["< 04/19/2020 >", 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
+const tableTitle = ['Title', 'Title2', 'Title3', 'Title4']
+const tableData = [
+        ['1', '2', '3'],
+        ['a', 'b', 'c'],
+        ['1', '2', '3'],
+        ['a', 'b', 'c']
+      ]
+
+const ActivityTable = (props) => {
+
+    return (
+
+        <Table  >
+          
+          <Row data={tableHead} flexArr={[1, 1, 1, 1]} textStyle={ thisStyle.tableHeader } borderStyle={{borderColor: 'transparent'}}/>
+
+          <TableWrapper style={{borderWidth: 0}}>
+        
+            <Col data={tableTitle} style={{}} heightArr={[28,28]} textStyle={{}}/>
+        
+            <Rows data={tableData} flexArr={[1, 1, 1]} style={{}} textStyle={{}}/>
+        
+          </TableWrapper>
+        
+        </Table>
+    )
+}
 
 const TodayBox = (props) => {
 
@@ -32,49 +66,16 @@ const TodayBox = (props) => {
        
         <View>
             <Text style={{...thisStyle.dashItem, margin: 25, fontFamily: 'Avenir-Black'}}>My Classroom</Text>
-            <View style={{flexDirection: 'row'}}>
+            <DashText wt="Heavy" size={28.6} text="Weekly Wellness Calendar" others={{marginLeft: 25, marginBottom: 20}}/>
+            <View style={{marginLeft: 25, marginRight: 25}}>
 
-                <View style={{width: 550, height: 400, alignSelf: 'center'}}>
-                    <Text style={{...thisStyle.dashItem, fontSize: 25, margin: 25, fontFamily: 'Avenir-Black'}}>Top Emotions</Text>
-                    <Image source={require("../assets/feelings_Pie_Chart.png")} 
-                            resize="cover" 
-                            style={{ height: 428, width: 430, alignSelf: 'center' }}     
-                    />
-                </View>
+                <Image source={require("../assets/activityTable.png")} 
+                        resizeMode="stretch" 
+                        style={{ height: 510 , width: 999 }}     
+                />
 
-                <View style={{width: 550, height: 400, alignSelf: 'center'}}>
-                    
-                    <Text style={{...thisStyle.dashItem, fontSize: 25, margin: 25, fontFamily: 'Avenir-Black'}}>Suggested Activities</Text>
-                    
-                    <View style={{ height: 428, width: 430, marginLeft: 25 }}>
-
-                        {/* Activity Boxes */}
-                        <View style={{width: 400, height: 175, backgroundColor: 'rgb(255, 203, 137)', borderRadius: 20}}>   
-                            <DashText wt="Light" size={18} text="Figure It Out" others={{ margin: 20}} />
-                            <DashText wt="Medium" size={32} text="Sammy the Squirrel" others={{ marginLeft: 20}} />
-                            <DashText wt="Light" size={25} text="Responding to Stress" others={{ marginLeft: 20}} />
-                            <Image source={require('../assets/playButton.png')} style={{position: 'absolute', top: 100, left: 320}}/>
-                        </View>
-
-                            <View style={{width: 400, height: 120, backgroundColor: 'rgb(255, 228, 193)', borderRadius: 20, marginTop: 10}}>   
-                            <DashText wt="Light" size={16} text="Let It Out" others={{ marginLeft: 20, marginTop: 20}} />
-                            <DashText wt="Medium" size={25} text="Rain Storm" others={{ marginLeft: 20}} />
-                            <DashText wt="Light" size={20} text="Unite the class with Sound" others={{ marginLeft: 20}} />
-                            <Image source={require('../assets/playButton.png')} style={{position: 'absolute', top: 35, left: 320}}/>
-                        </View>
-
-                        <View style={{width: 400, height: 120, backgroundColor: 'rgb(255, 228, 193)', borderRadius: 20, marginTop: 10}}>   
-                            <DashText wt="Light" size={16} text="Slow It Down" others={{ marginLeft: 20, marginTop: 20}} />
-                            <DashText wt="Medium" size={25} text="Tree Movement" others={{ marginLeft: 20}} />
-                            <DashText wt="Light" size={20} text="Relaxing guided movements" others={{ marginLeft: 20}} />
-                            <Image source={require('../assets/playButton.png')} style={{position: 'absolute', top: 35, left: 320}}/>
-                        </View>
-
-                            <Image source={require('../assets/seemore.png')} style={{alignSelf: 'flex-end', marginTop: 10, marginRight: 40}}/>
-
-                    </View>    
-                </View>
             </View>
+        
         </View>
     )
 }

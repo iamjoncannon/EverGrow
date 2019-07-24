@@ -47,7 +47,7 @@ class App extends React.Component {
   render(){
 
     return (
-      <DashBoard />
+       this.state.next ? <Root /> : <Tree handleNext={this.handleNext}/> 
     );
   }
 };

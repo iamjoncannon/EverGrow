@@ -29,7 +29,7 @@ export default class Root extends React.Component {
         this.state = {
             locked: false, // true/false,  locks screens
             modalState: {
-                type: "password", // "password", "kid checkin"
+                type: null, // "password", "kid checkin"
                 id: null,
                 visible: false
             },
@@ -89,8 +89,21 @@ export default class Root extends React.Component {
     toggleLock = () => {
 
         this.setState({
-            locked: !this.state.locked
+            locked: !this.state.locked,
         })
+        if (this.state.locked === false) {
+            this.setState({
+                modalState: {
+                    ...this.state.modalState,
+                    visible: true
+                }
+            })
+        }
+    }
+
+    getLockedState = () => {
+        
+        return this.state.locked
     }
 
     handleCheckInSubmit = (kidKey, itemKey) => {
@@ -112,6 +125,16 @@ export default class Root extends React.Component {
         this.setState({
             areKidsCheckedin: isEveryOneCheckedInYet,
             kidData: newKidData,
+            modalState: {
+                ...this.state.modalState,
+                visible: false
+            }
+        })
+    }
+
+    closeModal = (param) => {
+
+        this.setState({
             modalState: {
                 ...this.state.modalState,
                 visible: false
@@ -176,33 +199,31 @@ export default class Root extends React.Component {
                                 backgroundColor: 'white',
                             }}>
                                 <KidCheckIn
-                                    data={this.state.kidData[this.state.selectedKid]}
-                                    dims={this.state.ViewportWidth * .1}
-                                    handleCheckInSubmit={this.handleCheckInSubmit}
-                                    ViewportHeight={this.state.ViewportHeight}
-                                    ViewportWidth={this.state.ViewportWidth}
-                                />
+                                        data={this.state.kidData[this.state.selectedKid]}
+                                        dims={this.state.ViewportWidth * .1}
+                                        handleCheckInSubmit={this.handleCheckInSubmit}
+                                        ViewportHeight={this.state.ViewportHeight}
+                                        ViewportWidth={this.state.ViewportWidth}
+                                        closeModal={this.closeModal}
+                                        getLockedState={this.getLockedState}
+                                    />
                             </View> :
 
-                            this.state.modalState.type === "password" ?
-                                <View style={{
-                                    height: 286,
-                                    width: 675,
-                                    backgroundColor: 'white',
-                                }}>
-                                    <PasswordModal>
+                            (this.state.modalState.type === "password" || this.state.locked === true) ?
 
-                                    </PasswordModal>
-                                    <TextInput
-                                        onSubmitEditing={Keyboard.dismiss}
-                                        autoFocus={true}
-                                        editable={true}
-                                        keyboardType='default'
-                                        keyboardAppearance={"dark"}
-                                        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                                    />
-                                </View> : 
-                            <View></View>
+                                    <View style={{
+                                        height: 286,
+                                        width: 675,
+                                        backgroundColor: 'white',
+                                        marginTop: 10,
+                                        marginBottom: 321
+                                    }}>
+                                        <PasswordModal
+                                            closeModal={this.closeModal}
+                                            type={this.state.modalState.type}
+                                        />
+                                    </View> :
+                                    <View></View>
                         }
                     </View>
                 </Modal>
@@ -210,18 +231,33 @@ export default class Root extends React.Component {
             <ScrollView ref={(c) => { this.scroll = c }}>
 
                 {/* header */}
-                <TouchableOpacity onPress={this.toggleLock}> 
+                <View>
+                    <View style={{ position: 'absolute', right: 117, top: 60, zIndex: 10 }}>
+                        {
+                            this.state.locked == true ?
+                                <TouchableOpacity onPress={this.toggleLock}>
+                                    <Image source={require("./assets/Lock.png")} />
+                                </TouchableOpacity>
+                                : this.state.locked == false ?
+                                    <TouchableOpacity onPress={this.toggleLock}>
+                                        <Image source={require("./assets/unlock.png")} />
+                                    </TouchableOpacity>
+                                    : <View></View>
+                        }
+                    </View>
+                    <View style={{ marginTop: 25 }}>
+                        <Image
+                            source={require("./assets/sun.png")}
+                            style={{
+                                height: 231,
+                                width: 1112,
+                       
+                            }}
+                        />
+                    </View>
+                </View>
 
-                    <Image source={ require("./assets/sun.png")} 
-                        resize="cover" 
-                                            style={{
-                                                height: 231,
-                                                width: 1112
-                                            }}     
-                    />
-                </TouchableOpacity>
-
-                <Text style={styles.Date}>Wednesday, July 31, 2019</Text>
+                <Text style={styles.Date}>Tuesday, July 30, 2019</Text>
                 <Text style={styles.Title}>Welcome Class!</Text>
                 <Text style={styles.Feelings}>How are you feeling today?</Text>
                 <View style={styles.pictureRowContainer}>
@@ -269,7 +305,7 @@ export default class Root extends React.Component {
                     }}>Back to Top</Text>
                 </View>
 
-                {this.state.areKidsCheckedin ?
+                {this.state.locked == true ?
                     <GreenButton
                         globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
                         heightFactor={.1}
@@ -292,8 +328,6 @@ export default class Root extends React.Component {
                             height: this.state.ViewportHeight * .1,
                             width: this.state.ViewportWidth
                         }}
-                        resize="contain"
-
                     />
                 </View> : <View></View>
         }

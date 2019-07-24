@@ -45,9 +45,8 @@ class App extends React.Component {
 
   
   render(){
-
     return (
-       this.state.next ? <Root /> : <Tree handleNext={this.handleNext}/> 
+      this.state.next === true ? <Root/>:<Tree handleNext={this.handleNext}/> 
     );
   }
 };

@@ -168,223 +168,169 @@ export default class Root extends React.Component {
 
         console.log("here's state: ", this.state)
 
-        return (<View style={
-            styles.viewPortContainer
-        }>
-            <View>
+        return (
 
-                <Modal animationType="fade"
-                    transparent={true}
-                    visible={
-                        this.state.modalState.visible
-                    }
-                    style={
-                        {opacity: 10}
-                }>
-                    <View style={
-                        {
+            <View style={styles.viewPortContainer}>
+                <View>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.modalState.visible}
+                        style={{ opacity: 10 }}
+                    >
+                        <View style={{
                             flex: 1,
                             width: this.state.ViewportWidth,
                             alignItems: 'center',
                             justifyContent: 'center',
                             alignSelf: 'center',
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }> {
-                        this.state.modalState.type === "kidCheckin" ? <View style={
-                            {
-                                height: this.state.ViewportHeight * .7,
-                                width: this.state.ViewportWidth * .6,
-                                backgroundColor: 'white'
-                            }
-                        }>
-                            <KidCheckIn data={
-                                    this.state.kidData[this.state.selectedKid]
-                                }
-                                dims={
-                                    this.state.ViewportWidth * .1
-                                }
-                                handleCheckInSubmit={
-                                    this.handleCheckInSubmit
-                                }
-                                ViewportHeight={
-                                    this.state.ViewportHeight
-                                }
-                                ViewportWidth={
-                                    this.state.ViewportWidth
-                                }
-                                closeModal={
-                                    this.closeModal
-                                }
-                                getLockedState={
-                                    this.getLockedState
-                                }/>
-                        </View> : (this.state.modalState.type === "password" || this.state.locked === true) ? <View style={
-                            {
-                                height: 286,
-                                width: 675,
-                                backgroundColor: 'white',
-                                marginTop: 10,
-                                marginBottom: 321
-                            }
-                        }>
-                            <PasswordModal closeModal={
-                                    this.closeModal
-                                }
-                                type={
-                                    this.state.modalState.type
-                                }/>
-                        </View> : <View></View>
-                    } </View>
-                </Modal>
-            </View>
-            <ScrollView ref={
-                (c) => {
-                    this.scroll = c
-                }
-            }> {/* header */}
-                <View>
-                    <View style={
-                        {
-                            position: 'absolute',
-                            right: 117,
-                            top: 60,
-                            zIndex: 10
-                        }
-                    }> {
-                        this.state.locked == true ? <TouchableOpacity onPress={
-                            this.toggleLock
-                        }>
-                            <Image source={
-                                require("./assets/Lock.png")
-                            }/>
-                        </TouchableOpacity> : this.state.locked == false ? <TouchableOpacity onPress={
-                            this.toggleLock
-                        }>
-                            <Image source={
-                                require("./assets/unlock.png")
-                            }/>
-                        </TouchableOpacity> : <View></View>
-                    } </View>
-                    <View style={
-                        {marginTop: 25}
-                    }>
-                        <Image source={
-                                require("./assets/sun.png")
-                            }
-                            style={
-                                {
-                                    height: 231,
-                                    width: 1112
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        }}
+                        >
+                            {this.state.modalState.type === "kidCheckin" ?
+                                <View style={{
+                                    height: this.state.ViewportHeight * .7,
+                                    width: this.state.ViewportWidth * .6,
+                                    backgroundColor: 'white',
+                                }}>
+                                    <KidCheckIn
+                                        data={this.state.kidData[this.state.selectedKid]}
+                                        dims={this.state.ViewportWidth * .1}
+                                        handleCheckInSubmit={this.handleCheckInSubmit}
+                                        ViewportHeight={this.state.ViewportHeight}
+                                        ViewportWidth={this.state.ViewportWidth}
+                                        closeModal={this.closeModal}
+                                        getLockedState={this.getLockedState}
+                                    />
+                                </View> :
 
-                                }
-                            }/>
-                    </View>
+                                (this.state.modalState.type === "password" || this.state.locked === true) ?
+
+                                    <View style={{
+                                        height: 286,
+                                        width: 675,
+                                        backgroundColor: 'white',
+                                        marginTop: 10,
+                                        marginBottom: 321
+                                    }}>
+                                        <PasswordModal
+                                            closeModal={this.closeModal}
+                                            type={this.state.modalState.type}
+                                        />
+                                    </View> :
+                                    <View></View>
+
+                            }
+                        </View>
+                    </Modal>
                 </View>
 
-                <Text style={
-                    styles.Date
-                }>Tuesday, July 30, 2019</Text>
-                <Text style={
-                    styles.Title
-                }>Welcome Class!</Text>
-                <Text style={
-                    styles.Feelings
-                }>How are you feeling today?</Text>
-                <View style={
-                    styles.pictureRowContainer
-                }> {/* pictures */}
-                    <View style={
-                        styles.PictureRow
-                    }>
-
-                        <FlatList numColumns={5}
-                            contentContainerStyle={
-                                {alignSelf: 'center'}
-                            }
-                            data={kidsArray}
-                            renderItem={
-                                ({item}) => (<StudentImage name={
-                                        item.name
-                                    }
-                                    id={
-                                        item.key
-                                    }
-                                    imageSource={
-                                        item.pic
-                                    }
-                                    dims={
-                                        this.state.ViewportWidth * .14
-                                    }
-                                    handleModalInit={
-                                        this.handleModalInit
-                                    }
-                                    checkedIn={
-                                        this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '
-                                    }/>)
-                            }/>
-                    </View>
-            </View>
-
-            {/* back to top button */}
-
-            <View>
-                <TouchableOpacity title='Go To Top'
-                    onPress={
-                        this.goToTop
-                }>
-                    <Image source={
-                            require("./assets/backToTop.png")
-                        }
-                        style={
+                <ScrollView ref={(c) => { this.scroll = c }}>
+                    {/* header */}
+                    <View>
+                        <View style={{ position: 'absolute', right: 117, top: 60, zIndex: 10 }}>
                             {
-                                alignSelf: "center",
-                                height: 50,
-                                width: 50
+                                this.state.locked == true ?
+                                    <TouchableOpacity onPress={this.toggleLock}>
+                                        <Image source={require("./assets/Lock.png")} />
+                                    </TouchableOpacity>
+                                    : this.state.locked == false ?
+                                        <TouchableOpacity onPress={this.toggleLock}>
+                                            <Image source={require("./assets/unlock.png")} />
+                                        </TouchableOpacity>
+                                        : <View></View>
                             }
-                        }/>
-                </TouchableOpacity>
-                <Text style={
-                    {
-                        fontSize: 22,
-                        alignSelf: 'center',
-                        fontFamily: "Avenir-Medium",
-                        color: 'rgb(1, 0, 115)'
-                    }
-                }>Back to Top</Text>
+                        </View>
+                        <View style={{ marginTop: 25 }}>
+                            <Image
+                                source={require("./assets/sun.png")}
+                                style={{
+                                    height: 231,
+                                    width: 1112,
+                                    // zIndex: 1
+                                    // position: 'absolute',
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <Text style={styles.Date}>Tuesday, July 30, 2019</Text>
+                    <Text style={styles.Title}>Welcome Class!</Text>
+                    <Text style={styles.Feelings}>How are you feeling today?</Text>
+                    <View style={styles.pictureRowContainer}>
+
+                        {/* pictures */}
+                        <View style={styles.PictureRow}>
+
+                            <FlatList
+                                numColumns={5}
+                                contentContainerStyle={{
+                                    alignSelf: 'center',
+                                }}
+                                data={kidsArray}
+                                renderItem={({ item }) => (
+                                    <StudentImage
+                                        name={item.name}
+                                        id={item.key}
+                                        imageSource={item.pic}
+                                        dims={this.state.ViewportWidth * .14}
+                                        handleModalInit={this.handleModalInit}
+                                        checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
+                                    />
+                                )}
+                            />
+                        </View>
+                    </View>
+
+                    {/* back to top button */}
+
+                    <View>
+                        <TouchableOpacity title='Go To Top' onPress={this.goToTop} >
+                            <Image source={require("./assets/backToTop.png")}
+                                style={{
+                                    alignSelf: "center",
+                                    height: 50,
+                                    width: 50
+                                }}
+                            />
+                        </TouchableOpacity>
+                        <Text style={{
+                            fontSize: 22,
+                            alignSelf: 'center',
+                            fontFamily: "Avenir-Medium",
+                            color: 'rgb(1, 0, 115)'
+                        }}>Back to Top</Text>
+                    </View>
+
+                    {this.state.locked == true ?
+                        <GreenButton
+                            globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
+                            heightFactor={.1}
+                            widthFactor={1}
+                            callback={this.handlecheckInDone}
+                        />
+                        : <View></View>}
+
+                </ScrollView>
+
+                {/* footer */}
+                {
+                    !this.state.locked ?
+                        <View>
+
+                            <Image source={require("./assets/footer.png")}
+                                style={{
+                                    ...styles.FooterImage,
+                                    height: this.state.ViewportHeight * .1,
+                                    width: this.state.ViewportWidth
+                                }}
+                                resize="contain"
+
+                            />
+                        </View> : <View></View>
+                }
             </View>
-
-            {
-            this.state.locked == true ? <GreenButton globalDims={
-                    {
-                        height: this.state.ViewportHeight,
-                        width: this.state.ViewportWidth
-                    }
-                }
-                heightFactor={.1}
-                widthFactor={1}
-                callback={
-                    this.handlecheckInDone
-                }/> : <View></View>
-        } </ScrollView>
-
-        {/* footer */}
-
-        {
-        !this.state.locked ? <View>
-
-            <Image source={
-                    require("./assets/footer.png")
-                }
-                style={
-                    {
-                        ...styles.FooterImage,
-                        height: this.state.ViewportHeight * .1,
-                        width: this.state.ViewportWidth
-                    }
-                }/>
-        </View> : <View></View>
-    } </View>)
+        )
     }
 }
 

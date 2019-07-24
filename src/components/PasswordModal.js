@@ -35,7 +35,7 @@ export default class PasswordModal extends React.Component {
                         <TouchableOpacity onPress={() => closeModal(this.state.selected)}>
                             <View style={{ zIndex: 2, width: 20, height: 20, position: 'absolute', right: 35, top: 35, }}>
                                 <Image
-                                    source={require("./close.png")}
+                                    source={require("../assets/close.png")}
                                     style={{
                                         height: 20,
                                         width: 20,

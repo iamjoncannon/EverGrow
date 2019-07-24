@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import KidCheckIn from './components/KidCheckIn'
 import PasswordModal from './components/PasswordModal'
 import StudentImage from './components/StudentImage'
@@ -45,14 +45,8 @@ export default class Root extends React.Component {
         Dimensions.addEventListener("change", (change) => this.resizeLayout(change))
 
         // manage the keyboard
-        this.keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            this._keyboardDidShow,
-        );
-        this.keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            this._keyboardDidHide,
-        );
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
 
         // this is where you would load the data object for the kids
         // with an AJAX call
@@ -65,7 +59,7 @@ export default class Root extends React.Component {
             initialKidData[kid.key] = thisKid
         })
 
-        this.setState({ kidData: initialKidData })
+        this.setState({kidData: initialKidData})
     }
 
     componentDidUnMount() {
@@ -80,16 +74,13 @@ export default class Root extends React.Component {
 
     resizeLayout = (change) => {
 
-        this.setState({
-            ViewportWidth: change.window.width,
-            ViewportHeight: change.window.height
-        })
+        this.setState({ViewportWidth: change.window.width, ViewportHeight: change.window.height})
     }
 
     toggleLock = () => {
 
         this.setState({
-            locked: !this.state.locked,
+            locked: !this.state.locked
         })
         if (this.state.locked === false) {
             this.setState({
@@ -102,13 +93,15 @@ export default class Root extends React.Component {
     }
 
     getLockedState = () => {
-        
+
         return this.state.locked
     }
 
     handleCheckInSubmit = (kidKey, itemKey) => {
 
-        let newKidData = { ...this.state.kidData }
+        let newKidData = {
+            ...this.state.kidData
+        }
 
         newKidData[kidKey].checkedIn = true
         newKidData[kidKey].mood = feelings[itemKey]
@@ -117,7 +110,7 @@ export default class Root extends React.Component {
 
         // check if they're all checked in
         for (let kid in newKidData) {
-            if (!newKidData[kid].checkedIn) {
+            if (! newKidData[kid].checkedIn) {
                 isEveryOneCheckedInYet = false
             }
         }
@@ -159,181 +152,240 @@ export default class Root extends React.Component {
     handlecheckInDone = () => {
 
         this.setState({
-            modalState: { ...this.state.modalState, type: 'password', visible: true }
+            modalState: {
+                ...this.state.modalState,
+                type: 'password',
+                visible: true
+            }
         })
     }
 
     goToTop = () => {
-        this.scroll.scrollTo({ x: 0, y: 0, animated: true });
+        this.scroll.scrollTo({x: 0, y: 0, animated: true});
     }
 
     render() {
 
         console.log("here's state: ", this.state)
 
-        return (
-
-            <View style={styles.viewPortContainer}>
+        return (<View style={
+            styles.viewPortContainer
+        }>
             <View>
 
-                <Modal
-                    animationType="fade"
+                <Modal animationType="fade"
                     transparent={true}
-                    visible={this.state.modalState.visible}
-                    style={{ opacity: 10 }}
-                >
-                    <View style={{
-                        flex: 1,
-                        width: this.state.ViewportWidth,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        alignSelf: 'center',
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    }}
-                    >
-
-                        {this.state.modalState.type === "kidCheckin" ?
-                            <View style={{
+                    visible={
+                        this.state.modalState.visible
+                    }
+                    style={
+                        {opacity: 10}
+                }>
+                    <View style={
+                        {
+                            flex: 1,
+                            width: this.state.ViewportWidth,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }> {
+                        this.state.modalState.type === "kidCheckin" ? <View style={
+                            {
                                 height: this.state.ViewportHeight * .7,
                                 width: this.state.ViewportWidth * .6,
+                                backgroundColor: 'white'
+                            }
+                        }>
+                            <KidCheckIn data={
+                                    this.state.kidData[this.state.selectedKid]
+                                }
+                                dims={
+                                    this.state.ViewportWidth * .1
+                                }
+                                handleCheckInSubmit={
+                                    this.handleCheckInSubmit
+                                }
+                                ViewportHeight={
+                                    this.state.ViewportHeight
+                                }
+                                ViewportWidth={
+                                    this.state.ViewportWidth
+                                }
+                                closeModal={
+                                    this.closeModal
+                                }
+                                getLockedState={
+                                    this.getLockedState
+                                }/>
+                        </View> : (this.state.modalState.type === "password" || this.state.locked === true) ? <View style={
+                            {
+                                height: 286,
+                                width: 675,
                                 backgroundColor: 'white',
-                            }}>
-                                <KidCheckIn
-                                        data={this.state.kidData[this.state.selectedKid]}
-                                        dims={this.state.ViewportWidth * .1}
-                                        handleCheckInSubmit={this.handleCheckInSubmit}
-                                        ViewportHeight={this.state.ViewportHeight}
-                                        ViewportWidth={this.state.ViewportWidth}
-                                        closeModal={this.closeModal}
-                                        getLockedState={this.getLockedState}
-                                    />
-                            </View> :
-
-                            (this.state.modalState.type === "password" || this.state.locked === true) ?
-
-                                    <View style={{
-                                        height: 286,
-                                        width: 675,
-                                        backgroundColor: 'white',
-                                        marginTop: 10,
-                                        marginBottom: 321
-                                    }}>
-                                        <PasswordModal
-                                            closeModal={this.closeModal}
-                                            type={this.state.modalState.type}
-                                        />
-                                    </View> :
-                                    <View></View>
-                        }
-                    </View>
+                                marginTop: 10,
+                                marginBottom: 321
+                            }
+                        }>
+                            <PasswordModal closeModal={
+                                    this.closeModal
+                                }
+                                type={
+                                    this.state.modalState.type
+                                }/>
+                        </View> : <View></View>
+                    } </View>
                 </Modal>
             </View>
-            <ScrollView ref={(c) => { this.scroll = c }}>
-
-                {/* header */}
+            <ScrollView ref={
+                (c) => {
+                    this.scroll = c
+                }
+            }> {/* header */}
                 <View>
-                    <View style={{ position: 'absolute', right: 117, top: 60, zIndex: 10 }}>
+                    <View style={
                         {
-                            this.state.locked == true ?
-                                <TouchableOpacity onPress={this.toggleLock}>
-                                    <Image source={require("./assets/Lock.png")} />
-                                </TouchableOpacity>
-                                : this.state.locked == false ?
-                                    <TouchableOpacity onPress={this.toggleLock}>
-                                        <Image source={require("./assets/unlock.png")} />
-                                    </TouchableOpacity>
-                                    : <View></View>
+                            position: 'absolute',
+                            right: 117,
+                            top: 60,
+                            zIndex: 10
                         }
-                    </View>
-                    <View style={{ marginTop: 25 }}>
-                        <Image
-                            source={require("./assets/sun.png")}
-                            style={{
-                                height: 231,
-                                width: 1112,
-                       
-                            }}
-                        />
+                    }> {
+                        this.state.locked == true ? <TouchableOpacity onPress={
+                            this.toggleLock
+                        }>
+                            <Image source={
+                                require("./assets/Lock.png")
+                            }/>
+                        </TouchableOpacity> : this.state.locked == false ? <TouchableOpacity onPress={
+                            this.toggleLock
+                        }>
+                            <Image source={
+                                require("./assets/unlock.png")
+                            }/>
+                        </TouchableOpacity> : <View></View>
+                    } </View>
+                    <View style={
+                        {marginTop: 25}
+                    }>
+                        <Image source={
+                                require("./assets/sun.png")
+                            }
+                            style={
+                                {
+                                    height: 231,
+                                    width: 1112
+
+                                }
+                            }/>
                     </View>
                 </View>
 
-                <Text style={styles.Date}>Tuesday, July 30, 2019</Text>
-                <Text style={styles.Title}>Welcome Class!</Text>
-                <Text style={styles.Feelings}>How are you feeling today?</Text>
-                <View style={styles.pictureRowContainer}>
+                <Text style={
+                    styles.Date
+                }>Tuesday, July 30, 2019</Text>
+                <Text style={
+                    styles.Title
+                }>Welcome Class!</Text>
+                <Text style={
+                    styles.Feelings
+                }>How are you feeling today?</Text>
+                <View style={
+                    styles.pictureRowContainer
+                }> {/* pictures */}
+                    <View style={
+                        styles.PictureRow
+                    }>
 
-                    {/* pictures */}
-                    <View style={styles.PictureRow}>
-
-                        <FlatList
-                            numColumns={5}
-                            contentContainerStyle={{
-                                alignSelf: 'center',
-                            }}
+                        <FlatList numColumns={5}
+                            contentContainerStyle={
+                                {alignSelf: 'center'}
+                            }
                             data={kidsArray}
-                            renderItem={({ item }) => (
-                                <StudentImage
-                                    name={item.name}
-                                    id={item.key}
-                                    imageSource={item.pic}
-                                    dims={this.state.ViewportWidth * .14}
-                                    handleModalInit={this.handleModalInit}
-                                    checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
-                                />
-                            )}
-                        />
+                            renderItem={
+                                ({item}) => (<StudentImage name={
+                                        item.name
+                                    }
+                                    id={
+                                        item.key
+                                    }
+                                    imageSource={
+                                        item.pic
+                                    }
+                                    dims={
+                                        this.state.ViewportWidth * .14
+                                    }
+                                    handleModalInit={
+                                        this.handleModalInit
+                                    }
+                                    checkedIn={
+                                        this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '
+                                    }/>)
+                            }/>
                     </View>
-                </View>
+            </View>
 
-                {/* back to top button */}
+            {/* back to top button */}
 
-                <View>
-                    <TouchableOpacity title='Go To Top' onPress={this.goToTop} >
-                        <Image source={require("./assets/backToTop.png")}
-                            style={{
+            <View>
+                <TouchableOpacity title='Go To Top'
+                    onPress={
+                        this.goToTop
+                }>
+                    <Image source={
+                            require("./assets/backToTop.png")
+                        }
+                        style={
+                            {
                                 alignSelf: "center",
                                 height: 50,
                                 width: 50
-                            }}
-                        />
-                    </TouchableOpacity>
-                    <Text style={{
+                            }
+                        }/>
+                </TouchableOpacity>
+                <Text style={
+                    {
                         fontSize: 22,
                         alignSelf: 'center',
                         fontFamily: "Avenir-Medium",
                         color: 'rgb(1, 0, 115)'
-                    }}>Back to Top</Text>
-                </View>
+                    }
+                }>Back to Top</Text>
+            </View>
 
-                {this.state.locked == true ?
-                    <GreenButton
-                        globalDims={{ height: this.state.ViewportHeight, width: this.state.ViewportWidth }}
-                        heightFactor={.1}
-                        widthFactor={1}
-                        callback={this.handlecheckInDone}
-                    />
-                    : <View></View>}
+            {
+            this.state.locked == true ? <GreenButton globalDims={
+                    {
+                        height: this.state.ViewportHeight,
+                        width: this.state.ViewportWidth
+                    }
+                }
+                heightFactor={.1}
+                widthFactor={1}
+                callback={
+                    this.handlecheckInDone
+                }/> : <View></View>
+        } </ScrollView>
 
-            </ScrollView>
-            
-         {/* footer */}
+        {/* footer */}
 
         {
-            !this.state.locked ?
-                <View>
+        !this.state.locked ? <View>
 
-                    <Image source={require("./assets/footer.png")}
-                        style={{
-                            ...styles.FooterImage,
-                            height: this.state.ViewportHeight * .1,
-                            width: this.state.ViewportWidth
-                        }}
-                    />
-                </View> : <View></View>
-        }
-        </View>
-    )
-}
+            <Image source={
+                    require("./assets/footer.png")
+                }
+                style={
+                    {
+                        ...styles.FooterImage,
+                        height: this.state.ViewportHeight * .1,
+                        width: this.state.ViewportWidth
+                    }
+                }/>
+        </View> : <View></View>
+    } </View>)
+    }
 }
 
 
@@ -357,3 +409,4 @@ this.state.modalState.type === "password" ? <View>
         </View>
 
 */
+

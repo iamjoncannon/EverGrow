@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
         margin: 1,
         alignSelf: "center"
     },
-
     Date: {
         alignSelf: "center",
         fontSize: 22,

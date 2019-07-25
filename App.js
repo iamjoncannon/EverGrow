@@ -1,64 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
+import React from 'react';
 import Root from './src/root'
 import Tree from './src/components/treeopen'
 import DashBoard from './src/components/dashboard'
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-// import console = require('console');
-
-console.log("")
+import { kidsArray, feelingsArray, feelings, feelingsPics } from './src/components/data'
 
 class App extends React.Component {
 
   constructor(props) {
-      super(props)
-      this.state = {
-          scene: 'tree'
-      }
+    super(props)
+    this.state = {
+      scene: 'tree',
+      kidData: {}
+    }
   }
 
-  handleNext = (scene, data) =>{
-
+  handleNext = (scene) => {
     this.setState({
-      scene: scene,
-      data: data
+      scene: scene
     })
   }
 
-  
-  render(){
+  handleKids = (newKidObj) => {
+
+    this.setState({kidData: newKidObj})
+  }
+
+  componentDidMount() {
+
+    // this is where you would load the data object for the kids
+    // with an AJAX call
+    const initialKidData = {}
+
+    kidsArray.forEach(kid => {
+      let thisKid = kid
+      thisKid["checkedIn"] = false
+
+      initialKidData[kid.key] = thisKid
+    })
+
+    this.setState({ kidData: initialKidData })
+  }
+
+  render() {
     return (
-      
-      this.state.scene === 'root' ? <Root handleNext={this.handleNext}/> : 
-      this.state.scene === 'dash' ? <DashBoard data={this.state.data}/> :
-      <Tree handleNext={this.handleNext}/> 
 
-
+      this.state.scene === 'root' ? <Root handleKids={this.handleKids} handleNext={this.handleNext} kidData={this.state.kidData} /> :
+      this.state.scene === 'dash' ? <DashBoard handleNext={this.handleNext} data={this.state.kidData} /> :
+          <Tree handleNext={this.handleNext} />
     );
   }
 };
-  
+
 export default App;

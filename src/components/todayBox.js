@@ -15,7 +15,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { DashText } from './dashboard'
+import DashText from './DashText'
 
 const thisStyle = StyleSheet.create({
 

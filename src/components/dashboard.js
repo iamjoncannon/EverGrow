@@ -20,7 +20,7 @@ import styles from './styles'
 import TodayBox from './todayBox'
 import OverallBox from './OverallBox'
 import Footer from './Footer'
-
+import DashText from './DashText'
 // import console = require('console');
 
 console.log("vscode is really annoying sometimes")
@@ -86,15 +86,6 @@ export const DashSubScreenSelect = (props) => {
                 </Text>
             </View>
         </TouchableOpacity>
-    )
-}
-
-export const DashText = (props) => {
-    
-    const styling = { ...props.others, fontSize: props.size, fontFamily: "Avenir-" + props.wt }
-
-    return (
-        <Text style={{ ...styling, color: 'rgb(1, 0, 115)'}}>{props.text}</Text> 
     )
 }
 
@@ -241,17 +232,15 @@ export default class DashBoard extends React.Component {
                         <View style={{height: 150}}>
                             
                             <ScrollView style={{flex: 1, width: 1160, backgroundColor: 'rgba(151, 151, 151, .1)'}}>
-            
-                                <View style={{alignSelf: 'center'}}>
-
+                                               
                                     <FlatList
                                         numColumns={6}
                                         contentContainerStyle={{
-                                                alignSelf: 'center',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
+                                                justifyContent: 'flex-start',
+                                                flexGrow: 1,
                                                 flexDirection: 'row',
                                                 height: 150, 
+                                                width: 155 * kidsArray.length
                                             }}
                                         data={this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray }
                                         renderItem={({item})=>(
@@ -261,7 +250,6 @@ export default class DashBoard extends React.Component {
                                             </View>
                                         )}
                                     />
-                                </View>
 
                             </ScrollView>
 
@@ -278,6 +266,7 @@ export default class DashBoard extends React.Component {
 
                 <View style={{ height: 99, width: 1112 }}>
                     <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
+
                         <Footer
                             changeHandleNext={this.changeHandleNext}
                             page={this.state.page}

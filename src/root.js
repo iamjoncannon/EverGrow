@@ -44,39 +44,19 @@ export default class Root extends React.Component {
 
     componentDidMount() {
 
-        Dimensions.addEventListener("change", (change) => this.resizeLayout(change))
-
         // manage the keyboard
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
-
-    //     // this is where you would load the data object for the kids
-    //     // with an AJAX call
-    //     const initialKidData = {}
-
-    //     kidsArray.forEach(kid => {
-    //         let thisKid = kid
-    //         thisKid["checkedIn"] = false
-
-    //         initialKidData[kid.key] = thisKid
-    //     })
-
-    //     this.setState({kidData: initialKidData})
     }
 
     componentDidUnMount() {
 
-        Dimensions.removeEventListener("change")
+        // Dimensions.removeEventListener("change")
     }
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
-    }
-
-    resizeLayout = (change) => {
-
-        this.setState({ViewportWidth: change.window.width, ViewportHeight: change.window.height})
     }
 
     toggleLock = () => {
@@ -99,10 +79,10 @@ export default class Root extends React.Component {
         return this.state.locked
     }
 
-    handleCheckInSubmit = (kidKey, itemKey) => { //********** */
+    handleCheckInSubmit = (kidKey, itemKey) => {
 
         let newKidData = {
-            ...this.state.kidData
+            ...this.props.kidData
         }
 
         newKidData[kidKey].checkedIn = true
@@ -117,14 +97,18 @@ export default class Root extends React.Component {
             }
         }
 
+        
         this.setState({
             areKidsCheckedin: isEveryOneCheckedInYet,
-            kidData: newKidData,
+            // kidData: newKidData,
             modalState: {
                 ...this.state.modalState,
                 visible: false
             }
         })
+        
+        this.props.handleKids(newKidData)
+
     }
 
     changeHandleNext = (page) => {
@@ -181,7 +165,7 @@ export default class Root extends React.Component {
 
     render() {
 
-        console.log("here's state: ", this.state)
+        // console.log("here's state: ", this.state)
 
         return (
 
@@ -209,7 +193,7 @@ export default class Root extends React.Component {
                                     backgroundColor: 'white',
                                 }}>
                                     <KidCheckIn
-                                        data={this.state.kidData[this.state.selectedKid]}
+                                        data={this.props.kidData[this.state.selectedKid]}
                                         dims={this.state.ViewportWidth * .1}
                                         handleCheckInSubmit={this.handleCheckInSubmit}
                                         ViewportHeight={this.state.ViewportHeight}
@@ -219,7 +203,8 @@ export default class Root extends React.Component {
                                     />
                                 </View> :
 
-                                (this.state.modalState.type === "password" || this.state.locked === true || this.state.locked === false) ?
+                                (this.state.modalState.type === "password" 
+                                || this.state.locked === true || this.state.locked === false) ?
 
                                     <View style={{
                                         height: 286,

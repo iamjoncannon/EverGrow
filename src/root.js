@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import KidCheckIn from './components/KidCheckIn'
 import PasswordModal from './components/PasswordModal'
 import StudentImage from './components/StudentImage'
+import Footer from './components/Footer'
 import GreenButton from './components/GreenButton'
 import styles from './components/styles'
 import {kidsArray, feelingsArray, feelings} from './components/data'
@@ -27,6 +28,7 @@ export default class Root extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            page: "root",
             locked: false, // true/false,  locks screens
             modalState: {
                 type: null, // "password", "kid checkin"
@@ -125,6 +127,10 @@ export default class Root extends React.Component {
         })
     }
 
+    changeHandleNext = (page) => {
+        this.props.handleNext(page)
+    }
+
     closeModal = (type) => {
 
         if(type === 'password'){
@@ -213,7 +219,7 @@ export default class Root extends React.Component {
                                     />
                                 </View> :
 
-                                (this.state.modalState.type === "password" || this.state.locked === true) ?
+                                (this.state.modalState.type === "password" || this.state.locked === true || this.state.locked === false) ?
 
                                     <View style={{
                                         height: 286,
@@ -329,7 +335,8 @@ export default class Root extends React.Component {
                         <View style={{ height: 99, width: 1112 }}>
                             <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
                                 <Footer
-
+                                    changeHandleNext={this.changeHandleNext}
+                                    page={this.state.page}
                                 />
                             </View>
                         </View> : <View></View>

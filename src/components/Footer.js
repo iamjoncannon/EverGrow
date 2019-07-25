@@ -23,21 +23,25 @@ export default class Footer extends React.Component {
 
     render() {
 
-        let { closeModal, type } = this.props
+        let { changeHandleNext, page } = this.props
         // let kidKey = this.props.data.key
 
         return (
 
             <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
-                <TouchableOpacity>
-                    <Image
-                        source={require("../assets/icon-dashboard.png")}
-                    />
+                <TouchableOpacity onPress={() => changeHandleNext("dash")}>
+                    {
+                        page === "dash" ?
+                            <Image source={require("../assets/icon-dashboard-selected.png")} />
+                            : <Image source={require("../assets/icon-dashboard.png")} />
+                    }
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image
-                        source={require("../assets/icon-check-in-selected.png")}
-                    />
+                <TouchableOpacity onPress={() => changeHandleNext('root')}>
+                    {
+                        page === "root" ?
+                            <Image source={require("../assets/icon-check-in-selected.png")} />
+                            : <Image source={require("../assets/icon-dashboard.png")}  />
+                    }
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Image

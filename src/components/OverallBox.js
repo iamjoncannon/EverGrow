@@ -91,13 +91,12 @@ const OverallBox = (props) => {
       
 
                 <Text style={{...thisStyle.dashItem, margin: 25, fontFamily: 'Avenir-Black'}}>My Classroom</Text>
-                <DashText wt="Heavy" size={28.6} text="Weekly Wellness Calendar" others={{marginLeft: 25, marginBottom: 20}}/>
 
-                <View style={{marginLeft: 25, marginRight: 25}}>
+                <View style={{alignSelf:"center"}}>
 
                     {/* Activity Table  */}
 
-                    <Image  source={require("../assets/activityTable.png")} 
+                    <Image  source={require("../assets/table.png")} 
                             resizeMode="stretch" 
                             style={{ height: 510 , width: 999 }}     
                     /> 

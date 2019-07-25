@@ -27,6 +27,9 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+// import console = require('console');
+
+console.log("")
 
 class App extends React.Component {
 
@@ -37,9 +40,13 @@ class App extends React.Component {
       }
   }
 
-  handleNext = (scene) =>{
+  handleNext = (scene, data) =>{
+
+    console.log("inside handleNext: ", scene, data)
+
     this.setState({
-      scene: scene
+      scene: scene,
+      data: data
     })
   }
 
@@ -48,8 +55,10 @@ class App extends React.Component {
     return (
       
       this.state.scene === 'root' ? <Root handleNext={this.handleNext}/> : 
-      this.state.scene === 'dash' ? <DashBoard /> :
+      this.state.scene === 'dash' ? <DashBoard data={this.state.data}/> :
       <Tree handleNext={this.handleNext}/> 
+
+
     );
   }
 };

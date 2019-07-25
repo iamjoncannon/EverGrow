@@ -101,7 +101,27 @@ export default class DashBoard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            subTab: 'Today'
+            subTab: 'Today',
+            feelingFilter: []
+        }
+    }
+
+    toggleFeeling(feeling){
+
+        if(this.state.feelingFilter.includes(feeling)){
+
+            let newFeelings = [...this.state.feelingFilter]
+            newFeelings = newFeelings.filter(feelings => feelings !== feeling)
+
+            this.setState({
+                feelingFilter: newFeelings
+            })
+        }
+        else{
+   
+            this.setState({
+                feelingFilter: [...this.state.feelingFilter, feeling]
+            })
         }
     }
 
@@ -109,7 +129,7 @@ export default class DashBoard extends React.Component {
 
         const { subTab } = this.state
 
-        console.log(this.state)
+        console.log("dashboard state: ", this.state)
 
         return(
             <View style={thisStyle.viewPortContainer}>
@@ -178,7 +198,13 @@ export default class DashBoard extends React.Component {
                             }}
                         data={feelingsArray}
                         renderItem={({item})=>(
-                            <Image source={item.pic} style={{height: 50, width: 50, marginLeft: 20 }}/>
+                            
+                            
+
+                            <TouchableOpacity onPress={()=>this.toggleFeeling(item.pic)}>
+
+                                <Image source={item.pic} style={{ height: 50, width: 50, marginLeft: 20, opacity: this.state.feelingFilter.includes(item.pic) ? 1 : .5 }}/>
+                            </TouchableOpacity>
                         )}
                     />
 
@@ -193,16 +219,18 @@ export default class DashBoard extends React.Component {
                             <FlatList
                                 numColumns={6}
                                 contentContainerStyle={{
-                                        alignSelf: 'flex-end',
+                                        alignSelf: 'center',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         flexDirection: 'row',
                                         height: 150, 
                                     }}
-                                data={kidsArray}
+                                data={this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray }
                                 renderItem={({item})=>(
-
-                                    <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>
+                                    <View>
+                                        <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>
+                                        <Image source={this.props.data[item.key].mood} style={{zIndex: 2, position: 'absolute', height: 30, width: 30, bottom: 30, right: 30}}/>
+                                    </View>
                                 )}
                             />
                         </View>

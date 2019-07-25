@@ -4,7 +4,7 @@ import PasswordModal from './components/PasswordModal'
 import StudentImage from './components/StudentImage'
 import GreenButton from './components/GreenButton'
 import styles from './components/styles'
-import {kidsArray, feelingsArray, feelings} from './components/data'
+import {kidsArray, feelingsArray, feelings, feelingsPics } from './components/data'
 import Footer from './components/Footer'
 
 import {
@@ -105,7 +105,7 @@ export default class Root extends React.Component {
         }
 
         newKidData[kidKey].checkedIn = true
-        newKidData[kidKey].mood = feelings[itemKey]
+        newKidData[kidKey].mood = feelingsPics[itemKey]
 
         let isEveryOneCheckedInYet = true
 

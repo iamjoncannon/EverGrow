@@ -12,7 +12,7 @@ pic : i % 2 === 0 ? require("../assets/girl.png") : require("../assets/boy.png")
 
 export const feelingsArray = []
 
-let feelingsPics = [require('../assets/feelings1.png'), require('../assets/feelings2.png'), require('../assets/feelings3.png'), require('../assets/feelings4.png'), require('../assets/feelings5.png'), require('../assets/feelings6.png')]
+export const feelingsPics = [require('../assets/feelings1.png'), require('../assets/feelings2.png'), require('../assets/feelings3.png'), require('../assets/feelings4.png'), require('../assets/feelings5.png'), require('../assets/feelings6.png')]
 
 export const feelings = ['Happy', 'Sad', 'Angry', 'Nervous', 'Calm', 'Excited']
 

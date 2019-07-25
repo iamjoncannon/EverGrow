@@ -94,7 +94,7 @@ export default class DashBoard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            page: 'root',
+            page: 'dash',
             subTab: 'Today',
             feelingFilter: []
         }

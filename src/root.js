@@ -235,7 +235,7 @@ export default class Root extends React.Component {
                     </Modal>
                 </View>
 
-                <ScrollView ref={(c) => { this.scroll = c }}>
+                <ScrollView ref={(c) => { this.scroll = c }} >
                     {/* header */}
                     <View>
                         <View style={{ position: 'absolute', right: 117, top: 60, zIndex: 10 }}>

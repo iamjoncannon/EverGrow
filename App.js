@@ -42,8 +42,6 @@ class App extends React.Component {
 
   handleNext = (scene, data) =>{
 
-    console.log("inside handleNext: ", scene, data)
-
     this.setState({
       scene: scene,
       data: data

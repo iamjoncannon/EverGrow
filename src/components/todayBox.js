@@ -27,7 +27,6 @@ const thisStyle = StyleSheet.create({
 })
 
 
-
 const TodayBox = (props) => {
 
     return (
@@ -40,7 +39,7 @@ const TodayBox = (props) => {
                     <Text style={{...thisStyle.dashItem, fontSize: 25, margin: 25, fontFamily: 'Avenir-Black'}}>Top Emotions</Text>
                     <Image source={require("../assets/feelings_Pie_Chart.png")} 
                             resize="cover" 
-                            style={{ height: 428, width: 430, alignSelf: 'center' }}     
+                            style={{ height: 430, width: 430, alignSelf: 'center' }}     
                     />
                 </View>
 
@@ -50,7 +49,8 @@ const TodayBox = (props) => {
                     
                     <View style={{ height: 428, width: 430, marginLeft: 25 }}>
 
-                        {/* Activity Boxes */}
+                        {/* Activity Boxes - these can definitely be encapsulated */}
+
                         <View style={{width: 400, height: 175, backgroundColor: 'rgb(255, 203, 137)', borderRadius: 20}}>   
                             <DashText wt="Light" size={18} text="Figure It Out" others={{ margin: 20}} />
                             <DashText wt="Medium" size={32} text="Sammy the Squirrel" others={{ marginLeft: 20}} />

@@ -127,17 +127,13 @@ export default class DashBoard extends React.Component {
         }
     }
 
-    goToTop = () => {
-     
-        
-    }
-
     focusTextInput = () => {
         this.setState({ textModal: true })
+
         setTimeout(() => {
             
-            this.scroll.scrollTo({ x: 0, y: 1000, animated: true });
-        }, 5);
+            this.scroll.scrollTo({ x: 0, y: this.state.subTab === "Today" ? 1000 : 1550, animated: true });
+        }, 50);
     }
 
     render(){
@@ -154,16 +150,19 @@ export default class DashBoard extends React.Component {
 
                 
                     {/* Header */}
+
                     <Image source={require("../assets/dashheader.png")} 
                             resize="cover" 
                             style={{ height: 231, width: 1112 }}     
                     />
 
                     {/* Top info */}
+
                     <Text style={thisStyle.DashTitle}>Ms. Copeland's Classroom</Text>
                     <Text style={thisStyle.Date}>Monday May 8, 2020</Text>
                     
                     {/* Dash Buttons */}
+
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 7 }}>
                         <TopDashBox>
                             <View style={{flexDirection: 'row'}}>
@@ -184,6 +183,7 @@ export default class DashBoard extends React.Component {
                     {/* Middle Block- total and Overall */}
 
                     {/* dash button container */}
+
                     <View style={{flexDirection: 'row', }}>
 
                         <DashSubScreenSelect id={'Today'} selected={ subTab === "Today" } callback={()=>this.setState({subTab: 'Today'})}/>
@@ -192,7 +192,8 @@ export default class DashBoard extends React.Component {
                     </View>
 
                     {/* Selected Middle Section Container */}
-                    <View style={{height: 670, borderWidth: 1, borderColor: 'grey', flex: 1}}>
+                    
+                    <View style={{height: this.state.subTab === "Today" ? 670 : 1220 , borderWidth: 1, borderColor: 'grey', flex: 1}}>
 
                         { this.state.subTab === "Today" ? <TodayBox /> : <OverallBox></OverallBox> }
 
@@ -200,68 +201,66 @@ export default class DashBoard extends React.Component {
 
                     {/* My Students Section */}
 
-                    <DashText wt="Black" size={35} text="My Students" others={{marginTop: 30, marginLeft: 30}}/>
-                    <DashText wt="Medium" size={16} text="View individual student's progress details." others={{marginLeft: 30}}/>
-                    
-                    <View style={{flex: 1, marginTop: 10, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-
-                        <TextInput onFocus={() => this.focusTextInput() } 
-                                   onEndEditing={() => this.setState({ textModal: false })}
-                                   placeholder="Type something" 
-                                   placeholderTextColor={projectBlue} 
-                                   style={thisStyle.regularTextInput}
-                        />
+                        <DashText wt="Black" size={35} text="My Students" others={{marginTop: 30, marginLeft: 30}}/>
+                        <DashText wt="Medium" size={16} text="View individual student's progress details." others={{marginLeft: 30}}/>
                         
-                        <DashText wt="Medium" size={25} text="Filter by:" others={{alignSelf: 'center', marginLeft: 30}}/> 
-                        
-                        <FlatList
-                            numColumns={6}
-                            contentContainerStyle={{
-                                    alignSelf: 'center',
-                                    flex: 1, 
-                                }}
-                            data={feelingsArray}
-                            renderItem={({item})=>(
-                                
-                                
+                        <View style={{flex: 1, marginTop: 10, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
 
-                                <TouchableOpacity onPress={()=>this.toggleFeeling(item.pic)}>
+                            <TextInput onFocus={() => this.focusTextInput() } 
+                                    onEndEditing={() => this.setState({ textModal: false })}
+                                    placeholder="Type something" 
+                                    placeholderTextColor={projectBlue} 
+                                    style={thisStyle.regularTextInput}
+                            />
+                            
+                            <DashText wt="Medium" size={25} text="Filter by:" others={{alignSelf: 'center', marginLeft: 30}}/> 
+                            
+                            <FlatList
+                                numColumns={6}
+                                contentContainerStyle={{
+                                        alignSelf: 'center',
+                                        flex: 1, 
+                                    }}
+                                data={feelingsArray}
+                                renderItem={({item})=>(
+                                    
+                                    <TouchableOpacity onPress={()=>this.toggleFeeling(item.pic)}>
 
-                                    <Image source={item.pic} style={{ height: 50, width: 50, marginLeft: 20, opacity: this.state.feelingFilter.includes(item.pic) ? 1 : .5 }}/>
-                                </TouchableOpacity>
-                            )}
-                        />
+                                        <Image source={item.pic} style={{ height: 50, width: 50, marginLeft: 20, opacity: this.state.feelingFilter.includes(item.pic) ? 1 : .5 }}/>
+                                    </TouchableOpacity>
+                                )}
+                            />
 
-                    </View> 
+                        </View> 
 
-                    <View>
-                        
-                        <ScrollView style={{flex: 1, width: 1160, backgroundColor: 'rgba(151, 151, 151, .1)'}}>
-        
-                            <View style={{alignSelf: 'center'}}>
+                        <View style={{height: 150}}>
+                            
+                            <ScrollView style={{flex: 1, width: 1160, backgroundColor: 'rgba(151, 151, 151, .1)'}}>
+            
+                                <View style={{alignSelf: 'center'}}>
 
-                                <FlatList
-                                    numColumns={6}
-                                    contentContainerStyle={{
-                                            alignSelf: 'center',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            flexDirection: 'row',
-                                            height: 150, 
-                                        }}
-                                    data={this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray }
-                                    renderItem={({item})=>(
-                                        <View>
-                                            <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>
-                                            <Image source={this.props.data[item.key].mood} style={{zIndex: 2, position: 'absolute', height: 30, width: 30, bottom: 30, right: 30}}/>
-                                        </View>
-                                    )}
-                                />
-                            </View>
+                                    <FlatList
+                                        numColumns={6}
+                                        contentContainerStyle={{
+                                                alignSelf: 'center',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexDirection: 'row',
+                                                height: 150, 
+                                            }}
+                                        data={this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray }
+                                        renderItem={({item})=>(
+                                            <View>
+                                                <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>
+                                                <Image source={this.props.data[item.key].mood} style={{zIndex: 2, position: 'absolute', height: 30, width: 30, bottom: 30, right: 30}}/>
+                                            </View>
+                                        )}
+                                    />
+                                </View>
 
-                        </ScrollView>
+                            </ScrollView>
 
-                    </View>
+                        </View>
 
                 { this.state.textModal ? 
 

@@ -137,8 +137,8 @@ export default class DashBoard extends React.Component {
         }, 50);
     }
 
-    changeHandleNext = (page) => {
-        this.props.handleNext(page)
+    changeHandleNext = (page, data) => {
+        this.props.handleNext(page, data)
     }
 
     render(){

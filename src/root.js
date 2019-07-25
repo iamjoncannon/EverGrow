@@ -6,7 +6,6 @@ import Footer from './components/Footer'
 import GreenButton from './components/GreenButton'
 import styles from './components/styles'
 import {kidsArray, feelingsArray, feelings, feelingsPics } from './components/data'
-import Footer from './components/Footer'
 
 import {
     ScrollView,
@@ -39,7 +38,7 @@ export default class Root extends React.Component {
             areKidsCheckedin: false,
             ViewportWidth: Dimensions.get("window").width,
             ViewportHeight: Dimensions.get("window").height,
-            kidData: {}
+            // kidData: {}
         }
     }
 
@@ -51,18 +50,18 @@ export default class Root extends React.Component {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
 
-        // this is where you would load the data object for the kids
-        // with an AJAX call
-        const initialKidData = {}
+    //     // this is where you would load the data object for the kids
+    //     // with an AJAX call
+    //     const initialKidData = {}
 
-        kidsArray.forEach(kid => {
-            let thisKid = kid
-            thisKid["checkedIn"] = false
+    //     kidsArray.forEach(kid => {
+    //         let thisKid = kid
+    //         thisKid["checkedIn"] = false
 
-            initialKidData[kid.key] = thisKid
-        })
+    //         initialKidData[kid.key] = thisKid
+    //     })
 
-        this.setState({kidData: initialKidData})
+    //     this.setState({kidData: initialKidData})
     }
 
     componentDidUnMount() {
@@ -100,7 +99,7 @@ export default class Root extends React.Component {
         return this.state.locked
     }
 
-    handleCheckInSubmit = (kidKey, itemKey) => {
+    handleCheckInSubmit = (kidKey, itemKey) => { //********** */
 
         let newKidData = {
             ...this.state.kidData
@@ -291,7 +290,7 @@ export default class Root extends React.Component {
                                         imageSource={item.pic}
                                         dims={this.state.ViewportWidth * .14}
                                         handleModalInit={this.handleModalInit}
-                                        checkedIn={this.state.kidData[item.key] ? this.state.kidData[item.key].checkedIn : ' '}
+                                        checkedIn={this.props.kidData[item.key] ? this.props.kidData[item.key].checkedIn : ' '}
                                     />
                                 )}
                             />

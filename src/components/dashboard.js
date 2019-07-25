@@ -103,6 +103,7 @@ export default class DashBoard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            page: 'root',
             subTab: 'Today',
             feelingFilter: []
         }
@@ -134,6 +135,10 @@ export default class DashBoard extends React.Component {
             
             this.scroll.scrollTo({ x: 0, y: this.state.subTab === "Today" ? 1000 : 1550, animated: true });
         }, 50);
+    }
+
+    changeHandleNext = (page) => {
+        this.props.handleNext(page)
     }
 
     render(){
@@ -271,10 +276,12 @@ export default class DashBoard extends React.Component {
                 }
                 </ScrollView>
 
-
                 <View style={{ height: 99, width: 1112 }}>
                     <View style={{ alignSelf: "center", width: 758, marginTop: 15 }}>
-                        <Footer />
+                        <Footer
+                            changeHandleNext={this.changeHandleNext}
+                            page={this.state.page}
+                        />
                     </View>
                 </View> 
 

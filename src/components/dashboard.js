@@ -96,7 +96,8 @@ export default class DashBoard extends React.Component {
         this.state = {
             page: 'dash',
             subTab: 'Today',
-            feelingFilter: []
+            feelingFilter: [],
+            
         }
     }
 
@@ -136,6 +137,8 @@ export default class DashBoard extends React.Component {
 
         const { subTab } = this.state
 
+        const thisData = this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray ;
+
         return(
 
 
@@ -155,7 +158,7 @@ export default class DashBoard extends React.Component {
                     {/* Top info */}
 
                     <Text style={thisStyle.DashTitle}>Ms. Copeland's Classroom</Text>
-                    <Text style={thisStyle.Date}>Monday May 8, 2020</Text>
+                    <Text style={thisStyle.Date}>Tuesday July 30, 2019</Text>
                     
                     {/* Dash Buttons */}
 
@@ -240,9 +243,9 @@ export default class DashBoard extends React.Component {
                                                 flexGrow: 1,
                                                 flexDirection: 'row',
                                                 height: 150, 
-                                                width: 155 * kidsArray.length
+                                                width: 155 * thisData.length
                                             }}
-                                        data={this.state.feelingFilter.length ? kidsArray.filter(item => this.state.feelingFilter.includes(item.mood)) : kidsArray }
+                                        data={thisData}
                                         renderItem={({item})=>(
                                             <View>
                                                 <Image source={item.pic} style={{margin: 20, height: 110, width: 110, alignSelf: 'center'}}/>

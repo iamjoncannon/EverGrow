@@ -2,4 +2,4 @@
 
 React Native project.
 
-See "Walkthrough" for demonstration of app.
+Download "raw" version of  Walkthrough.mov for demonstration of app.

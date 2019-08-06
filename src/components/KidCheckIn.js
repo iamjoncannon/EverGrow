@@ -35,8 +35,6 @@ export default class KidCheckIn extends React.Component {
 
             <View style={{ flex: 1,width: 620, height: 524 }}>
 
-                
-
                         <TouchableOpacity onPress={() => closeModal(this.state.selected)}>
                             <View style={{ zIndex: 2, width: 20, height: 20, position: 'absolute', right: 0, top: 35}}>
                                 <Image
@@ -111,18 +109,3 @@ export default class KidCheckIn extends React.Component {
         )
     }
 }
-// // this.toggleLock == false ?
-// <Image source={require("./unlock.png")}
-// resize="cover"
-// style={{
-//     height: 56,
-//     width: 56
-// }}
-// /> : <Image source={require("./Lock.png")}
-// resize="cover"
-// style={{
-//     height: 56,
-//     width: 56
-// }}
-// />
-// }

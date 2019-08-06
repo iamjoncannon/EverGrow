@@ -50,8 +50,3 @@ const Tree = (props) => {
 }
 
 export default Tree
-
-{/* <Image 
-            source={require('./talkBox.png')}
-            style={{ position: 'absolute', top: 100, left: 30, zIndex: 2, height: 300, width: 300 }}
-        /> */}

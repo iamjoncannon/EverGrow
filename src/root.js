@@ -21,8 +21,6 @@ import {
     PixelRatio
 } from 'react-native';
 
-console.log('stuf')
-
 export default class Root extends React.Component {
 
     constructor(props) {
@@ -38,7 +36,7 @@ export default class Root extends React.Component {
             areKidsCheckedin: false,
             ViewportWidth: Dimensions.get("window").width,
             ViewportHeight: Dimensions.get("window").height,
-            // kidData: {}
+         
         }
     }
 
@@ -47,11 +45,6 @@ export default class Root extends React.Component {
         // manage the keyboard
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
-    }
-
-    componentDidUnMount() {
-
-        // Dimensions.removeEventListener("change")
     }
 
     componentWillUnmount() {
@@ -100,7 +93,7 @@ export default class Root extends React.Component {
         
         this.setState({
             areKidsCheckedin: isEveryOneCheckedInYet,
-            // kidData: newKidData,
+         
             modalState: {
                 ...this.state.modalState,
                 visible: false
@@ -164,8 +157,6 @@ export default class Root extends React.Component {
     }
 
     render() {
-
-        // console.log("here's state: ", this.state)
 
         return (
 
@@ -247,8 +238,6 @@ export default class Root extends React.Component {
                                 style={{
                                     height: 231,
                                     width: 1112,
-                                    // zIndex: 1
-                                    // position: 'absolute',
                                 }}
                             />
                         </View>

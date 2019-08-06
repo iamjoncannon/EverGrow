@@ -26,7 +26,6 @@ const thisStyle = StyleSheet.create({
     }
 })
 
-
 const TodayBox = (props) => {
 
     return (

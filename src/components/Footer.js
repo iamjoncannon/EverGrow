@@ -53,10 +53,8 @@ export default class Footer extends React.Component {
 
     render() {
 
-
         let { changeHandleNext, page } = this.props
-        // let kidKey = this.props.data.key
-
+ 
         return (
 
             <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
@@ -80,22 +78,6 @@ export default class Footer extends React.Component {
                         </TouchableOpacity>
                 }
 
-                {/* <TouchableOpacity onPress={() => this.toggleSelected("dash")}>
-                    {
-                        this.dashIsSelected === true ?
-                            <Image source={require("../assets/icon-dashboard-selected.png")} />
-                            : <Image source={require("../assets/icon-dashboard.png")} />
-                    }
-                </TouchableOpacity> */}
-
-                {/* <TouchableOpacity onPress={() => this.toggleSelected("root")}>
-                    {
-                        this.rootIsSelected === true ?
-                            <Image source={rootSelected} />
-                            : <Image source={root} />
-                    }
-                </TouchableOpacity> */}
-
                 <TouchableOpacity>
                     <Image
                         source={require("../assets/icon-tree.png")}
@@ -118,27 +100,3 @@ export default class Footer extends React.Component {
         )
     }
 }
-
-// rootRenderImage = () => {
-    //     var imgSource = this.state.rootIsSelected ? icons[1] : icons[0];
-
-    //     this.changeHandleNext('root')
-
-    //     return (
-    //         <Image
-    //             source={require(imgSource)}
-    //         />
-    //     );
-    // }
-
-    // dashRenderImage = () => {
-    //     var imgSource = this.state.dashIsSelected ? icons[3] : icons[2];
-
-    //     this.changeHandleNext('dash')
-
-    //     return (
-    //         <Image
-    //             source={require(imgSource)}
-    //         />
-    //     );
-    // }

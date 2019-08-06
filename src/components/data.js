@@ -10,33 +10,6 @@ for (let i = 0; i < 2; i++) {
     })
 }
 
-// kidsArray.push({
-//         name: "Corabelle",
-//         key: 3,
-//         pic: require("../assets/corabelle.png")
-// })
-// kidsArray.push({
-//         name: "Sam",
-//         key: 4,
-//         pic: require("../assets/sam.png")
-// })
-// kidsArray.push({
-//         name: "Chris",
-//         key: 5,
-//         pic: require("../assets/chrisKid.png")
-// })
-// kidsArray.push({
-//         name: "Miriam",
-//         key: 6,
-//         pic: require("../assets/miriam.png")
-// })
-// kidsArray.push({
-//         name: "Monica",
-//         key: 7,
-//         pic: require("../assets/monica.png")
-// })
-
-
 kidsArray.push({
         name: "Dianne",
         key: 3,

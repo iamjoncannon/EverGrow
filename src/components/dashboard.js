@@ -21,9 +21,6 @@ import TodayBox from './todayBox'
 import OverallBox from './OverallBox'
 import Footer from './Footer'
 import DashText from './DashText'
-// import console = require('console');
-
-console.log("vscode is really annoying sometimes")
 
 const projectBlue = 'rgb(1, 0, 115)'
 

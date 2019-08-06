@@ -26,8 +26,6 @@ const thisStyle = StyleSheet.create({
     },
 })
 
-// import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-
 const tableHead = ["< 04/19/2020 >", 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
 const tableTitle = ['Title', 'Title2', 'Title3', 'Title4']
 const tableData = [

@@ -2,4 +2,6 @@
 
 React Native project.
 
-Download "raw" version of  Walkthrough.mov for demonstration of app.
+## Walkthrough 
+
+[maplewalkthrough](https://youtu.be/A-U0j9tb18s)

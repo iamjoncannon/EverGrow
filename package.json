@@ -1,0 +1,34 @@
+{
+  "name": "EverGrow",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "start": "react-native run-ios --simulator='iPad Pro ten point five inch'",
+    "test": "jest",
+    "lint": "eslint .",
+    "xcode": "open ios/EverGrow.xcworkspace/",
+    "compile": "react-native run-ios --simulator='Techs iPad'",
+    "device": "react-native run-ios --device 'Techs iPad'"
+  },
+  "dependencies": {
+    "d3": "^5.9.7",
+    "react": "16.8.6",
+    "react-native": "0.60.4",
+    "react-native-svg": "^9.5.3",
+    "react-native-table-component": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.5",
+    "@babel/runtime": "7.5.5",
+    "@react-native-community/eslint-config": "0.0.3",
+    "babel-jest": "24.8.0",
+    "eslint": "6.0.1",
+    "jest": "24.8.0",
+    "metro-react-native-babel-preset": "0.54.1",
+    "react-test-renderer": "16.8.6"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

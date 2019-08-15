@@ -6,5 +6,5 @@ React Native project.
 
 [Walkthrough of iPad application](https://player.vimeo.com/video/354000529)
 
-
+![screenshot](https://github.com/iamjoncannon/EverGrow/blob/master/screenshot.png)
 

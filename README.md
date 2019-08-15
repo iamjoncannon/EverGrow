@@ -4,6 +4,7 @@ React Native project.
 
 ## Walkthrough 
 
-[![Maple Video Walkthrough](https://img.youtube.com/vi/A-U0j9tb18s/0.jpg)](https://youtu.be/A-U0j9tb18s)
+[Walkthrough of iPad application](https://player.vimeo.com/video/354000529)
+
 
 
